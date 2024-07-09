@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AboutLeader = () => {
+export default function AboutLeader() {
     const firstName = 'John';
     const lastName = 'Doe';
     const phoneNumber = '555-555-5555';
