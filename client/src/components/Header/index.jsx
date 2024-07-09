@@ -7,6 +7,7 @@ export default function Header() {
             <img src="https://via.placeholder.com/150" alt="Group Logo" />
             <h1>Group Title</h1>
             <Link to="/settings">Settings</Link>
+            <Link to ="/">Signup</Link>
         </header>
     )
     }
