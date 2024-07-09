@@ -40,6 +40,73 @@ const resolvers = {
 
       return { token, user };
     },
+    addChat: async (parent, { chatText }, context) => {
+        if (context.user) {
+          const thought = await Chat.create({
+            chatText,
+            chatAuthor: context.user.username,
+          });
+  
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { chats: chat._id } }
+          );
+  
+          return thought;
+        }
+        throw AuthenticationError;
+        ('You need to be logged in!');
+      },
+      addComment: async (parent, { chatId, commentText }, context) => {
+        if (context.user) {
+          return Chat.findOneAndUpdate(
+            { _id: chatId },
+            {
+              $addToSet: {
+                comments: { commentText, commentAuthor: context.user.username },
+              },
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
+        }
+        throw AuthenticationError;
+      },
+      removeChat: async (parent, { thoughtId }, context) => {
+        if (context.user) {
+          const chat = await Chat.findOneAndDelete({
+            _id: chatId,
+            chatAuthor: context.user.username,
+          });
+  
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $pull: { chats: chat._id } }
+          );
+  
+          return chat;
+        }
+        throw AuthenticationError;
+      },
+      removeComment: async (parent, { chatId, commentId }, context) => {
+        if (context.user) {
+          return Chat.findOneAndUpdate(
+            { _id: chatId },
+            {
+              $pull: {
+                comments: {
+                  _id: commentId,
+                  commentAuthor: context.user.username,
+                },
+              },
+            },
+            { new: true }
+          );
+        }
+        throw AuthenticationError;
+      },
 
   },
 };
