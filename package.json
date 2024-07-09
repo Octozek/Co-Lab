@@ -9,6 +9,7 @@
       "client": "cd client && npm start",
       "build": "cd client && npm run build",
       "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+      "install": "cd server && npm i && cd ../client && npm i",
       "preview": "cd client && npm run preview"
     },
     "dependencies": {
