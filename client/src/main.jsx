@@ -12,6 +12,7 @@ import ComingEvents from './pages/ComingEvents.jsx'
 import Games from './pages/Games.jsx'
 import Lessons from './pages/Lessons.jsx'
 import Login from './pages/Login.jsx'
+import Signup from './pages/Signup';
 import PastEvents from './pages/PastEvents.jsx'
 import Settings from './pages/Settings.jsx'
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />
       },
       {
         path: '/past-events',
