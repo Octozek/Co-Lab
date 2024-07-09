@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faTrashAlt, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 
 const Lessons = () => {
   // Example lesson plans data (you would fetch or define this data)
