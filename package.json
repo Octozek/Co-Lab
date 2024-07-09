@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "type": "module",
     "scripts": {
+        "start": "node server/server.js",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd server && nodemon server.js",
         "client": "cd client && npm start",
