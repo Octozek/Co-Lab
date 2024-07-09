@@ -11,7 +11,9 @@ export default function Header() {
             <br/>
             <Link to ="/Login">Login</Link>
             <h1>Group Title</h1>
-            <Link to="/settings">Settings</Link>
+            <Link to="/settings">
+            <img src='../../../public/imgs/settings.png' alt='settings' />
+            </Link>
         </header>
     )
     }
