@@ -6,8 +6,8 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    user: async (parent, { username }) => {
-      return User.findOne({ username });
+    user: async (parent, { email }) => {
+      return User.findOne({ email });
     },
     me: async (parent, args, context) => {
       if (context.user) {
@@ -78,7 +78,7 @@ const resolvers = {
         if (context.user) {
           const chat = await Chat.findOneAndDelete({
             _id: chatId,
-            chatAuthor: context.user.username,
+            chatAuthor: context.user.fullName,
           });
   
           await User.findOneAndUpdate(
@@ -98,7 +98,7 @@ const resolvers = {
               $pull: {
                 comments: {
                   _id: commentId,
-                  commentAuthor: context.user.username,
+                  commentAuthor: context.user.fullName,
                 },
               },
             },
