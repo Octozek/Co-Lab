@@ -8,7 +8,30 @@ const typeDefs = `
     orders: [Order]
   }
 
-  
+  type Chat {
+    _id: ID
+    chatText: String
+    chatAuthor: String
+    createdAt: String
+    comments: [Comment]!
+  }
+
+  type Comment {
+    _id: ID
+    commentText: String
+    commentAuthor: String
+    createdAt: String
+  }
+
+  type Lesson {
+    _id: ID
+    lessonTitle: String
+    lessonDetails: String
+    lessonAuthor: String
+    createdAt: String
+    comments: [Comment]!
+  }
+
   type Auth {
     token: ID
     user: User
