@@ -7,7 +7,7 @@ const ChatList = ({
   showName = true,
 }) => {
   if (!chats.length) {
-    return <h3>No Thoughts Yet</h3>;
+    return <h3>No chats Yet</h3>;
   }
 
   return (
