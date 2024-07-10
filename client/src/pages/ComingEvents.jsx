@@ -23,7 +23,7 @@ const ComingEvents = () => {
   };
 
   const handleAddEvent = () => {
-    if (!formData.name || !formData.date || !formData.price || !formData.image) {
+    if (!formData.name || !formData.date || !formData.image) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -77,7 +77,6 @@ const ComingEvents = () => {
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -109,7 +108,7 @@ const ComingEvents = () => {
           <div key={index} className="event">
             <h2>{event.name}</h2>
             <p>Date: {event.date}</p>
-            <p>Price: {event.price}</p>
+            {event.price && <p>Price: {event.price}</p>}
             {event.image && <img src={URL.createObjectURL(event.image)} alt={event.name} />}
             {event.link && (
               <p>
