@@ -3,7 +3,7 @@ export default function CreateLesson() {
   const lessons = [
     {
       title: "Create a Lesson",
-      image: "./public/",
+      image: "./public/CreateLesson.png",
       description: "Create a new lesson here!",
       path: "/createLesson/createLessonbtn",
     },
