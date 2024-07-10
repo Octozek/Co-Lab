@@ -1,4 +1,3 @@
-/* client/src/pages/ComingEvents.css */
 .coming-events {
     text-align: center;
     padding: 20px;
@@ -74,21 +73,10 @@
     background-color: #218838;
   }
   
-  .events-list {
-    margin-top: 20px;
-  }
-  
-  .event {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .event img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-top: 10px;
+  .events-list .event img {
+    width: 150px; /* Fixed width */
+    height: 150px; /* Fixed height */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-radius: 5px; /* Optional: adds a bit of styling */
   }
   
