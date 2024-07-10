@@ -49,10 +49,10 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
-      thoughts {
+      chats {
         _id
-        thoughtText
-        thoughtAuthor
+        chatText
+        chatAuthor
         createdAt
       }
     }
