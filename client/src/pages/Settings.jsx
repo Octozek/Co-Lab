@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
 const SettingsPage = () => {
+    const first = 'John';
+    const last = 'Doe';
+    const phone = '555-555-5555';
+    const emailInput = 'john.doe@example.com';
+    const headShot = 'https://via.placeholder.com/150';
     // State variables for form inputs
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -30,21 +35,27 @@ const SettingsPage = () => {
     };
 
     return (
-        <div className="settings-page">
-            <div className="sidebar">
-                <button>My Profile</button>
-                <button>Themes</button>
-                <button>Media</button>
-                <button>Logout</button>
-            </div>
             <div className="settings-content">
                 <h1>Settings</h1>
+                <div className="profilePicture">
+                    <img src={headShot} alt={`${first} ${last}`} />
+                </div>
+                <div className="settings-page">
+            <div className="sidebar">
+                <button>My Profile</button>
+                <button>My Groups</button>
+                <button>Themes</button>
+                <button>Upgrade Plans</button>
+                <button>Logout</button>
+            </div>
+            <br />
                 <form>
                     <div className="form-group">
                         <label htmlFor="firstName">First Name:</label>
                         <input
                             type="text"
                             id="firstName"
+                            placeholder={first}
                             value={firstName}
                             onChange={handleFirstNameChange}
                         />
@@ -54,6 +65,7 @@ const SettingsPage = () => {
                         <input
                             type="text"
                             id="lastName"
+                            placeholder={last}
                             value={lastName}
                             onChange={handleLastNameChange}
                         />
@@ -63,6 +75,7 @@ const SettingsPage = () => {
                         <input
                             type="email"
                             id="email"
+                            placeholder={emailInput}
                             value={email}
                             onChange={handleEmailChange}
                         />
@@ -73,6 +86,7 @@ const SettingsPage = () => {
                             type="text"
                             id="phoneNumber"
                             value={phoneNumber}
+                            placeholder={phone}
                             onChange={handlePhoneNumberChange}
                         />
                     </div>
@@ -85,6 +99,7 @@ const SettingsPage = () => {
                             onChange={handlePasswordChange}
                         />
                     </div>
+                    <br />
                     <button type="submit">Save Changes</button>
                 </form>
             </div>
