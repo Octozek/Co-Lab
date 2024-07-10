@@ -19,4 +19,3 @@ export default function AboutLeader() {
     );
 };
 
-export default AboutLeader;
