@@ -1,19 +1,22 @@
+/* client/src/pages/ComingEvents.css */
 .coming-events {
   text-align: center;
   padding: 20px;
 }
 
-.add-event-btn {
+.add-event-btn,
+.delete-event-btn {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
+  margin: 10px;
 }
 
-.add-event-btn:hover {
+.add-event-btn:hover,
+.delete-event-btn:hover {
   background-color: #0056b3;
 }
 
@@ -80,18 +83,33 @@
 }
 
 .event {
-  border: 1px solid #ccc;
+  border: 1px solid black;
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
   max-width: 300px;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .event img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
+  max-width: 100px;
+  max-height: 100px;
+  margin-right: 10px;
+}
+
+.wiggle {
+  animation: wiggle 0.5s infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
 }
 
 .going {
