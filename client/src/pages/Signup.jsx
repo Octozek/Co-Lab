@@ -11,7 +11,9 @@ const Signup = () => {
     fullName: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
+  
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
@@ -38,6 +40,13 @@ const Signup = () => {
     }
   };
 
+  const validatePassword = () => {
+    state.password === state.confirmPassword
+      ? setPassMatch(true)
+      : setPassMatch(false);
+  };
+  
+
   return (
     <main className="flex-row justify-center mb-4">
       <div className="col-12 col-lg-10">
@@ -61,7 +70,7 @@ const Signup = () => {
                 />
                 <input
                   className="form-input"
-                  placeholder="Your email"
+                  placeholder="Your Email"
                   name="email"
                   type="email"
                   value={formState.email}
@@ -69,10 +78,18 @@ const Signup = () => {
                 />
                 <input
                   className="form-input"
-                  placeholder="******"
+                  placeholder="Enter Password"
                   name="password"
                   type="password"
                   value={formState.password}
+                  onChange={handleChange}
+                />
+                <input
+                  className="form-input"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  value={formState.confirmPassword}
                   onChange={handleChange}
                 />
                 <button
