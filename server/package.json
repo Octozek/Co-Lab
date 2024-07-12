@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js",
+      "start": "nodemon server.js",
       "watch": "nodemon",
       "seed": "node seeders/seed.js"
     },
@@ -14,7 +14,8 @@
       "express": "^4.17.1",
       "graphql": "^16.9.0",
       "jsonwebtoken": "^8.5.1",
-      "mongoose": "^5.12.3"
+      "mongoose": "^5.12.3",
+      "graphql-tag": "^2.12.6"
     },
     "devDependencies": {
       "nodemon": "^2.0.7"
