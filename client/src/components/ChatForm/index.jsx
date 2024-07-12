@@ -13,7 +13,7 @@ const ChatForm = () => {
   const [characterCount, setCharacterCount] = useState(0);
 
   const [addChat, { error }] = useMutation
-  (ADD_CHAT, {
+    (ADD_CHAT, {
     refetchQueries: [
       QUERY_CHATS,
       'getChats',
@@ -24,7 +24,7 @@ const ChatForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+console.log(Auth.getProfile().data.fullName)
     try {
       const { data } = await addChat({
         variables: {
