@@ -1,42 +1,63 @@
-/* client/src/pages/ComingEvents.css */
 .coming-events {
-  text-align: center;
   padding: 20px;
 }
 
-.add-event-btn,
-.delete-event-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+.add-event-btn, .delete-event-btn {
   margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-.add-event-btn:hover,
-.delete-event-btn:hover {
-  background-color: #0056b3;
+.events-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.event {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.event img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.wiggle {
+  animation: wiggle 0.2s ease infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
 }
 
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background-color: white;
+  background: white;
   padding: 20px;
-  border-radius: 5px;
-  width: 300px;
+  border-radius: 10px;
   position: relative;
 }
 
@@ -44,8 +65,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 20px;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .form-group {
@@ -64,54 +85,13 @@
 }
 
 .submit-btn {
-  background-color: #28a745;
-  color: white;
   padding: 10px 20px;
-  border: none;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
-}
-
-.submit-btn:hover {
-  background-color: #218838;
-}
-
-.events-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.event {
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-  max-width: 300px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-}
-
-.event img {
-  max-width: 100px;
-  max-height: 100px;
-  margin-right: 10px;
-}
-
-.wiggle {
-  animation: wiggle 0.5s infinite;
-}
-
-@keyframes wiggle {
-  0%, 100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
 }
 
 .going {
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

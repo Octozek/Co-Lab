@@ -1,5 +1,6 @@
-const typeDefs = `
-  
+const { gql } = require('graphql-tag');
+
+const typeDefs = gql`
   type User {
     _id: ID
     fullName: String
@@ -46,12 +47,12 @@ const typeDefs = `
   }
 
   type Mutation {
-    addUser(fullName: String!, email: String!, password: String!, confirmPassword: String!, role: String!): Auth
+    addUser(fullName: String!, email: String!, password: String!, confirmPassword: String!): Auth
     updateUser(fullName: String, email: String, password: String): User
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
-}
+  }
 `;
 
 module.exports = typeDefs;
