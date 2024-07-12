@@ -15,7 +15,8 @@
     },
     "dependencies": {
       "concurrently": "^6.2.0",
-      "framer-motion": "^11.3.2"
+      "framer-motion": "^11.3.2",
+      "axios": "^1.7.2"
     },
     "devDependencies": {
       "eslint": "^8.57.0",
