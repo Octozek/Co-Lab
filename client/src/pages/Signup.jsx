@@ -1,19 +1,20 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../utils/mutations";
 
-import Auth from '../utils/auth';
+import Auth from "../utils/auth";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "",
   });
-  
+
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
@@ -40,13 +41,6 @@ const Signup = () => {
     }
   };
 
-  const validatePassword = () => {
-    state.password === state.confirmPassword
-      ? setPassMatch(true)
-      : setPassMatch(false);
-  };
-  
-
   return (
     <main className="flex-row justify-center mb-4">
       <div className="col-12 col-lg-10">
@@ -55,7 +49,7 @@ const Signup = () => {
           <div className="card-body">
             {data ? (
               <p>
-                Success! You may now head{' '}
+                Success! You may now head{" "}
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
@@ -92,9 +86,42 @@ const Signup = () => {
                   value={formState.confirmPassword}
                   onChange={handleChange}
                 />
+                <div className="form-input">
+                  <span>Role: </span>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Leader"
+                      checked={formState.role === "Leader"}
+                      onChange={handleChange}
+                    />{" "}
+                    Leader
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Student"
+                      checked={formState.role === "Student"}
+                      onChange={handleChange}
+                    />{" "}
+                    Student
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Guardian"
+                      checked={formState.role === "Guardian"}
+                      onChange={handleChange}
+                    />{" "}
+                    Guardian
+                  </label>
+                </div>
                 <button
                   className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   type="submit"
                 >
                   Submit
