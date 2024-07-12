@@ -2,38 +2,29 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
-import { ADD_CHAT } from '../../utils/mutations';
-import { QUERY_CHATS, QUERY_ME } from '../../utils/queries';
+import { ADD_COMMENT } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-const ChatForm = () => {
-  const [chatText, setChatText] = useState('');
-
+const CommentForm = ({ chatId }) => {
+  const [commentText, setCommentText] = useState('');
   const [characterCount, setCharacterCount] = useState(0);
 
-  const [addChat, { error }] = useMutation
-    (ADD_CHAT, {
-    refetchQueries: [
-      QUERY_CHATS,
-      'getChats',
-      QUERY_ME,
-      'me'
-    ]
-  });
+  const [addComment, { error }] = useMutation(ADD_COMMENT);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-// console.log(Auth.getProfile().data.fullName)
+
     try {
-      const { data } = await addChat({
+      const { data } = await addComment({
         variables: {
-          chatText,
-          chatAuthor: Auth.getProfile().data.fullName,
+          chatId,
+          commentText,
+          commentAuthor: Auth.getProfile().data.fullName,
         },
       });
 
-      setChatText('');
+      setCommentText('');
     } catch (err) {
       console.error(err);
     }
@@ -42,15 +33,15 @@ const ChatForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === 'chatText' && value.length <= 280) {
-      setChatText(value);
+    if (name === 'commentText' && value.length <= 280) {
+      setCommentText(value);
       setCharacterCount(value.length);
     }
   };
 
   return (
     <div>
-      <h3>Chat</h3>
+      <h4>Add a comment</h4>
 
       {Auth.loggedIn() ? (
         <>
@@ -60,6 +51,7 @@ const ChatForm = () => {
             }`}
           >
             Character Count: {characterCount}/280
+            {error && <span className="ml-2">{error.message}</span>}
           </p>
           <form
             className="flex-row justify-center justify-space-between-md align-center"
@@ -67,9 +59,9 @@ const ChatForm = () => {
           >
             <div className="col-12 col-lg-9">
               <textarea
-                name="chatText"
-                placeholder="Start the chat..."
-                value={chatText}
+                name="commentText"
+                placeholder="Add your comment..."
+                value={commentText}
                 className="form-input w-100"
                 style={{ lineHeight: '1.5', resize: 'vertical' }}
                 onChange={handleChange}
@@ -78,19 +70,14 @@ const ChatForm = () => {
 
             <div className="col-12 col-lg-3">
               <button className="btn btn-primary btn-block py-3" type="submit">
-                Add Chat
+                Add Comment
               </button>
             </div>
-            {error && (
-              <div className="col-12 my-3 bg-danger text-white p-3">
-                {error.message}
-              </div>
-            )}
           </form>
         </>
       ) : (
         <p>
-          You need to be logged in to chat. Please{' '}
+          You need to be logged in to share your comment. Please{' '}
           <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
         </p>
       )}
@@ -98,4 +85,4 @@ const ChatForm = () => {
   );
 };
 
-export default ChatForm;
+export default CommentForm;

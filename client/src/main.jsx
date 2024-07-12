@@ -18,6 +18,7 @@ import Settings from './pages/Settings.jsx'
 import Dice from './pages/GameTools/Dice.jsx'
 import Timer from './pages/GameTools/Timer.jsx'
 import Scoreboard from './pages/GameTools/Scoreboard.jsx'
+import SingleChat from './pages/SingleChat.jsx'
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: '/settings',
         element: <Settings />,
+      },
+      {
+        path: '/chats/:chatId',
+        element: <SingleChat />,
       }
     ]
   }
