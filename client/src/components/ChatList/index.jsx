@@ -15,7 +15,7 @@ const ChatList = ({
       {showChat && <h3>{chatText}</h3>}
       {chats &&
         chats.map((chat) => (
-          <div key={chats._id} className="card mb-3">
+          <div key={chat._id} className="card mb-3">
             <h4 className="card-header bg-primary text-light p-2 m-0">
               {showName ? (
                 <Link

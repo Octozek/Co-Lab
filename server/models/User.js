@@ -29,7 +29,10 @@ const userSchema = new Schema({
       message: 'Passwords do not match!',
     },
   },
-
+  role: {
+    type: String,
+    required: true,
+  },
  });
 
 userSchema.pre('save', async function (next) {
