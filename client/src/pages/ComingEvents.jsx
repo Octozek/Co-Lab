@@ -1,5 +1,5 @@
-// client/src/pages/ComingEvents.jsx
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ComingEvents.css';
 
 const ComingEvents = () => {
@@ -13,12 +13,19 @@ const ComingEvents = () => {
     link: '',
   });
   const [headcounts, setHeadcounts] = useState({});
-  const [deleteMode, setDeleteMode] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    // Remove expired events
-    const now = new Date();
-    setEvents((prevEvents) => prevEvents.filter((event) => new Date(event.date) >= now));
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/events');
+        setEvents(response.data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   const handleInputChange = (e) => {
@@ -30,20 +37,47 @@ const ComingEvents = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  const handleAddEvent = () => {
-    if (!formData.name || !formData.date || !formData.image) {
-      alert('Please fill in all required fields.');
+  const handleAddEvent = async () => {
+    // Validate required fields
+    if (!formData.name) {
+      alert('Please add a name.');
       return;
     }
-    setEvents([...events, { ...formData, id: events.length }]);
-    setShowModal(false);
-    setFormData({
-      name: '',
-      date: '',
-      price: '',
-      image: '',
-      link: '',
-    });
+    if (!formData.date) {
+      alert('Please add a date.');
+      return;
+    }
+    if (!formData.image) {
+      alert('Please add an image.');
+      return;
+    }
+
+    try {
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('date', formData.date);
+      data.append('price', formData.price);
+      data.append('link', formData.link);
+      data.append('image', formData.image);
+
+      const response = await axios.post('http://localhost:3001/api/events', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setEvents([...events, response.data]);
+      setShowModal(false);
+      setFormData({
+        name: '',
+        date: '',
+        price: '',
+        image: '',
+        link: '',
+      });
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
   };
 
   const handleCheckboxChange = (eventId, isChecked) => {
@@ -53,17 +87,19 @@ const ComingEvents = () => {
     }));
   };
 
-  const handleDeleteEvent = (eventId) => {
-    const confirmed = window.confirm('Are you sure you want to delete this event?');
-    if (confirmed) {
-      setEvents(events.filter(event => event.id !== eventId));
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/events/${eventId}`);
+      setEvents(events.filter(event => event._id !== eventId));
+    } catch (error) {
+      console.error('Error deleting event:', error);
     }
   };
 
-  const handleDeleteClick = () => {
-    setDeleteMode(true);
+  const handleDeleteButtonClick = () => {
+    setDeleting(true);
     setTimeout(() => {
-      setDeleteMode(false);
+      setDeleting(false);
     }, 10000);
   };
 
@@ -73,7 +109,7 @@ const ComingEvents = () => {
       <button className="add-event-btn" onClick={() => setShowModal(true)}>
         Add Event
       </button>
-      <button className="delete-event-btn" onClick={handleDeleteClick}>
+      <button className="delete-event-btn" onClick={handleDeleteButtonClick}>
         Delete Event
       </button>
       {showModal && (
@@ -117,6 +153,7 @@ const ComingEvents = () => {
                 type="file"
                 name="image"
                 onChange={handleFileChange}
+                accept="image/*"
                 required
               />
             </div>
@@ -136,34 +173,40 @@ const ComingEvents = () => {
         </div>
       )}
       <div className="events-list">
-        {events.map((event, index) => (
+        {Array.isArray(events) && events.map((event, index) => (
           <div
             key={index}
-            className={`event ${deleteMode ? 'wiggle' : ''}`}
-            onClick={() => deleteMode && handleDeleteEvent(event.id)}
+            className={`event ${deleting ? 'wiggle' : ''}`}
+            onClick={() => {
+              if (deleting) {
+                if (window.confirm('Are you sure you want to delete this event?')) {
+                  handleDeleteEvent(event._id);
+                }
+              }
+            }}
           >
-            {event.image && <img src={URL.createObjectURL(event.image)} alt={event.name} />}
-            <div>
-              <h2>{event.name}</h2>
-              <p>Date: {event.date}</p>
-              <p>Price: {event.price}</p>
-              {event.link && (
-                <p>
-                  <a href={event.link} target="_blank" rel="noopener noreferrer">
-                    More Info
-                  </a>
-                </p>
-              )}
-              <div className="going">
-                <label>
-                  <input
-                    type="checkbox"
-                    onChange={(e) => handleCheckboxChange(event.id, e.target.checked)}
-                  />
-                  Going?
-                </label>
-                <p>Headcount: {headcounts[event.id] || 0}</p>
-              </div>
+            <h2>{event.name}</h2>
+            <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+            <p>Price: {event.price}</p>
+            {event.image && (
+              <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
+            )}
+            {event.link && (
+              <p>
+                <a href={event.link} target="_blank" rel="noopener noreferrer">
+                  More Info
+                </a>
+              </p>
+            )}
+            <div className="going">
+              <label>
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleCheckboxChange(event._id, e.target.checked)}
+                />
+                Going?
+              </label>
+              <p>Headcount: {headcounts[event._id] || 0}</p>
             </div>
           </div>
         ))}

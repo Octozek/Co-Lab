@@ -1,4 +1,4 @@
-const { User, Chat, Lessons } = require('../models');
+const { User, Chat, Lesson } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -20,7 +20,7 @@ const resolvers = {
       return Chat.find(params).sort({ createdAt: -1 });
     },
     getSingleChat: async (parent, { chatId }) => {
-      return Chat.findOne({ _id: chatId  });
+      return Chat.findOne({ _id: chatId });
     },
   },
   
@@ -30,7 +30,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    login: async (parent, { fullName, email, password }) => {
+    login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
@@ -82,40 +82,6 @@ const resolvers = {
         }
         throw AuthenticationError;
       },
-      // removeChat: async (parent, { chatId }, context) => {
-      //   if (context.user) {
-      //     const chat = await Chat.findOneAndDelete({
-      //       _id: chatId,
-      //       chatAuthor: context.user.fullName,
-      //     });
-  
-      //     await User.findOneAndUpdate(
-      //       { _id: context.user._id },
-      //       { $pull: { chats: chat._id } }
-      //     );
-  
-      //     return chat;
-      //   }
-      //   throw AuthenticationError;
-      // },
-      // removeComment: async (parent, { chatId, commentId }, context) => {
-      //   if (context.user) {
-      //     return Chat.findOneAndUpdate(
-      //       { _id: chatId },
-      //       {
-      //         $pull: {
-      //           comments: {
-      //             _id: commentId,
-      //             commentAuthor: context.user.fullName,
-      //           },
-      //         },
-      //       },
-      //       { new: true }
-      //     );
-      //   }
-      //   throw AuthenticationError;
-      // },
-
   },
 };
 

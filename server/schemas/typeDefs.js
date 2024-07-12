@@ -1,5 +1,6 @@
-const typeDefs = `
-  
+const { gql } = require('graphql-tag');
+
+const typeDefs = gql`
   type User {
     _id: ID
     fullName: String
@@ -51,7 +52,7 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
-}
+  }
 `;
 
 module.exports = typeDefs;
