@@ -91,9 +91,11 @@ export default function Timer() {
       <div>
         <h2>Stopwatch</h2>
         <h2> {formatTime(time)}</h2>
+        <div>
         <button onClick={() => setTimerOn(true)}>Start</button>
         <button onClick={() => setTimerOn(false)}>Stop</button>
         <button onClick={() => setTime(0)}>Reset</button>
+        </div>
       </div>
 
       <div>
@@ -101,6 +103,7 @@ export default function Timer() {
         <h2 className={countdownOn ? "pulsing" : ""}>
           {formatTime(countdownTime)}
         </h2>
+        <div>
         <input
           type="number"
           placeholder="Enter time in minutes"
@@ -109,9 +112,12 @@ export default function Timer() {
           onKeyDown={handleInputKeyDown}
           disabled={countdownOn}
         />
-        <button onClick={() => setCountdownOn(true)}>Start Countdown</button>
-        <button onClick={() => setCountdownOn(false)}>Stop Countdown</button>
-        <button onClick={() => setCountdownTime(0)}>Reset Countdown</button>
+        </div>
+        <div>
+        <button onClick={() => setCountdownOn(true)}>Start</button>
+        <button onClick={() => setCountdownOn(false)}>Stop</button>
+        <button onClick={() => setCountdownTime(0)}>Reset</button>
+        </div>
       </div>
     </div>
   );
