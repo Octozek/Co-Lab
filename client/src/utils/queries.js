@@ -28,7 +28,7 @@ export const QUERY_CHATS = gql`
 
 export const QUERY_SINGLE_CHAT = gql`
   query getSingleChat($chatId: ID!) {
-    chat(chatId: $chatId) {
+    getSingleChat(chatId: $chatId) {
       _id
       chatText
       chatAuthor

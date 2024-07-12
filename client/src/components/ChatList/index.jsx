@@ -36,7 +36,7 @@ const ChatList = ({
               )}
             </h4>
             <div className="card-body bg-light p-2">
-              <p>{chat.chatText}</p>
+              <h2>{chat.chatText}</h2>
             </div>
             <Link
               className="btn btn-primary btn-block btn-squared"

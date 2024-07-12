@@ -4,7 +4,7 @@ class AuthService {
   getProfile() {
   
     const decoded = decode(this.getToken());
-    console.log("decoded", decoded)
+    // console.log("decoded", decoded)
     return decoded;
     // return decode(this.getToken());
   }

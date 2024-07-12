@@ -20,8 +20,7 @@ const resolvers = {
       return Chat.find(params).sort({ createdAt: -1 });
     },
     getSingleChat: async (parent, { chatId }) => {
-      return Chat.findOne({ _id: chat 
-      });
+      return Chat.findOne({ _id: chatId  });
     },
   },
   
