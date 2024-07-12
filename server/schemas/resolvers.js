@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Chat, Lessons } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -15,6 +15,14 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+    getChats: async (parent, { fullName }) => {
+      const params = fullName ? { fullName } : {};
+      return Chat.find(params).sort({ createdAt: -1 });
+    },
+    getSingleChat: async (parent, { chatId }) => {
+      return Chat.findOne({ _id: chat 
+      });
+    },
   },
   
   Mutation: {
@@ -23,7 +31,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    login: async (parent, { email, password }) => {
+    login: async (parent, { fullName, email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
@@ -41,6 +49,7 @@ const resolvers = {
       return { token, user };
     },
     addChat: async (parent, { chatText }, context) => {
+      console.log(context.user.fullName)
         if (context.user) {
           const chat = await Chat.create({
             chatText,
@@ -52,7 +61,7 @@ const resolvers = {
             { $addToSet: { chats: chat._id } }
           );
   
-          return thought;
+          return chat;
         }
         throw AuthenticationError;
         ('You need to be logged in!');
