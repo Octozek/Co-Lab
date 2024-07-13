@@ -23,11 +23,26 @@ export default function GameButtons() {
 
   return (
     <div>
+      <style>
+        {`
+        img {
+          width: 150px;
+          height: 150px;
+        }
+        .games {
+          display: inline-block;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid black;
+          border-radius: 10px;
+        }
+      `}
+      </style>
       {games.map((game, index) => (
-        <div key={index}>
+        <div key={index} className="games">
           <h3>{game.title}</h3>
           <Link to={game.path}>
-            <img src={game.image} alt={game.title} />
+            <img src={game.image} alt={game.title}/>
           </Link>
           <p>{game.description}</p>
         </div>
