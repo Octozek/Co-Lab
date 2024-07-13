@@ -5,6 +5,7 @@ import './ComingEvents.css';
 const ComingEvents = () => {
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     date: '',
@@ -12,14 +13,16 @@ const ComingEvents = () => {
     image: '',
     link: '',
   });
-  const [headcounts, setHeadcounts] = useState({});
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:3001/api/events');
-        setEvents(response.data);
+        if (Array.isArray(response.data)) {
+          setEvents(response.data);
+        } else {
+          console.error('Error: API response is not an array', response.data);
+        }
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -38,17 +41,8 @@ const ComingEvents = () => {
   };
 
   const handleAddEvent = async () => {
-    // Validate required fields
-    if (!formData.name) {
-      alert('Please add a name.');
-      return;
-    }
-    if (!formData.date) {
-      alert('Please add a date.');
-      return;
-    }
-    if (!formData.image) {
-      alert('Please add an image.');
+    if (!formData.name || !formData.date || !formData.image) {
+      alert('Name, date, and image are required.');
       return;
     }
 
@@ -62,8 +56,8 @@ const ComingEvents = () => {
 
       const response = await axios.post('http://localhost:3001/api/events', data, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       setEvents([...events, response.data]);
@@ -80,17 +74,10 @@ const ComingEvents = () => {
     }
   };
 
-  const handleCheckboxChange = (eventId, isChecked) => {
-    setHeadcounts((prevHeadcounts) => ({
-      ...prevHeadcounts,
-      [eventId]: (prevHeadcounts[eventId] || 0) + (isChecked ? 1 : -1),
-    }));
-  };
-
   const handleDeleteEvent = async (eventId) => {
     try {
       await axios.delete(`http://localhost:3001/api/events/${eventId}`);
-      setEvents(events.filter(event => event._id !== eventId));
+      setEvents(events.filter((event) => event._id !== eventId));
     } catch (error) {
       console.error('Error deleting event:', error);
     }
@@ -103,72 +90,47 @@ const ComingEvents = () => {
     }, 10000);
   };
 
+  const handleEventClick = (eventId, eventName) => {
+    if (deleting) {
+      const confirmDelete = window.confirm(`Are you sure you want to delete the event "${eventName}"?`);
+      if (confirmDelete) {
+        handleDeleteEvent(eventId);
+      }
+    }
+  };
+
   return (
     <div className="coming-events">
       <h1>Coming Events</h1>
-      <button className="add-event-btn" onClick={() => setShowModal(true)}>
-        Add Event
-      </button>
-      <button className="delete-event-btn" onClick={handleDeleteButtonClick}>
-        Delete Event
-      </button>
+      <div className="button-group">
+        <button className="add-event-btn" onClick={() => setShowModal(true)}>Add Event</button>
+        <button className="delete-event-btn" onClick={handleDeleteButtonClick}>Delete Event</button>
+      </div>
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close-btn" onClick={() => setShowModal(false)}>
-              &times;
-            </span>
+            <span className="close-btn" onClick={() => setShowModal(false)}>&times;</span>
             <div className="form-group">
               <label>Event Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
+              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
             </div>
             <div className="form-group">
               <label>Event Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-                required
-              />
+              <input type="date" name="date" value={formData.date} onChange={handleInputChange} required />
             </div>
             <div className="form-group">
               <label>Event Price</label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
-              />
+              <input type="number" name="price" value={formData.price} onChange={handleInputChange} />
             </div>
             <div className="form-group">
               <label>Event Image</label>
-              <input
-                type="file"
-                name="image"
-                onChange={handleFileChange}
-                accept="image/*"
-                required
-              />
+              <input type="file" name="image" onChange={handleFileChange} accept="image/*" required />
             </div>
             <div className="form-group">
               <label>Event Link</label>
-              <input
-                type="url"
-                name="link"
-                value={formData.link}
-                onChange={handleInputChange}
-              />
+              <input type="url" name="link" value={formData.link} onChange={handleInputChange} />
             </div>
-            <button className="submit-btn" onClick={handleAddEvent}>
-              Add Event
-            </button>
+            <button className="submit-btn" onClick={handleAddEvent}>Add Event</button>
           </div>
         </div>
       )}
@@ -177,37 +139,13 @@ const ComingEvents = () => {
           <div
             key={index}
             className={`event ${deleting ? 'wiggle' : ''}`}
-            onClick={() => {
-              if (deleting) {
-                if (window.confirm('Are you sure you want to delete this event?')) {
-                  handleDeleteEvent(event._id);
-                }
-              }
-            }}
+            onClick={() => handleEventClick(event._id, event.name)}
           >
             <h2>{event.name}</h2>
             <p>Date: {new Date(event.date).toLocaleDateString()}</p>
             <p>Price: {event.price}</p>
-            {event.image && (
-              <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
-            )}
-            {event.link && (
-              <p>
-                <a href={event.link} target="_blank" rel="noopener noreferrer">
-                  More Info
-                </a>
-              </p>
-            )}
-            <div className="going">
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleCheckboxChange(event._id, e.target.checked)}
-                />
-                Going?
-              </label>
-              <p>Headcount: {headcounts[event._id] || 0}</p>
-            </div>
+            {event.image && <img src={`data:image/png;base64,${event.image}`} alt={event.name} />}
+            {event.link && <p><a href={event.link} target="_blank" rel="noopener noreferrer">More Info</a></p>}
           </div>
         ))}
       </div>

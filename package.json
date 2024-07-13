@@ -1,31 +1,30 @@
 {
-    "name": "co-lab",
-    "private": true,
-    "version": "0.0.1",
-    "type": "module",
-    "scripts": {
-      "start": "node server/server.js",
-      "dev": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
-      "server": "cd server && nodemon server.js",
-      "client": "cd client && npm start",
-      "build": "cd client && npm run build",
-      "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-      "install": "cd server && npm i && cd ../client && npm i",
-      "preview": "cd client && npm run preview"
-    },
-    "dependencies": {
-      "concurrently": "^6.2.0",
-      "framer-motion": "^11.3.2",
-      "axios": "^1.7.2"
-    },
-    "devDependencies": {
-      "eslint": "^8.57.0",
-      "eslint-plugin-react": "^7.34.2",
-      "eslint-plugin-react-hooks": "^4.6.2",
-      "eslint-plugin-react-refresh": "^0.4.7"
-    },
-    "engines": {
-      "node": ">=14.0.0"
-    }
+  "name": "co-lab",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
+    "server": "cd server && nodemon server.js",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "preview": "cd client && npm run preview"
+  },
+  "dependencies": {
+    "concurrently": "^6.2.0",
+    "framer-motion": "^11.3.2",
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
-  
+}

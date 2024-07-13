@@ -1,48 +1,22 @@
 const express = require('express');
-const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
-const path = require('path');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const { authMiddleware } = require('./utils/auth');
-
-const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
 const eventRoutes = require('./routes/eventRoutes');
 
-const PORT = process.env.PORT || 3001;
 const app = express();
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/co-lab', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-const startApolloServer = async () => {
-  await server.start();
+app.use('/api', eventRoutes);
 
-  app.use(cors());
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
-
-  app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware
-  }));
-
-  app.use('/api', eventRoutes);
-
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    });
-  }
-
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-    });
-  });
-};
-
-startApolloServer();
+app.listen(PORT, () => {
+  console.log(`API server running on port ${PORT}!`);
+});

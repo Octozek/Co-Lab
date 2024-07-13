@@ -2,10 +2,20 @@
   padding: 20px;
 }
 
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
 .add-event-btn, .delete-event-btn {
   margin: 10px;
   padding: 10px 20px;
   font-size: 16px;
+}
+
+.delete-event-btn {
+  background-color: red;
+  color: white;
 }
 
 .events-list {
