@@ -15,12 +15,12 @@ const ComingEvents = () => {
   const [headcounts, setHeadcounts] = useState({});
   const [deleting, setDeleting] = useState(false);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+  const apiUrl = 'https://your-backend-service.onrender.com/api/coming-events'; // Update this line
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${API_URL}/events`);
+        const response = await axios.get(apiUrl);
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -28,7 +28,7 @@ const ComingEvents = () => {
     };
 
     fetchEvents();
-  }, [API_URL]);
+  }, [apiUrl]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +41,7 @@ const ComingEvents = () => {
 
   const handleAddEvent = async () => {
     if (!formData.name || !formData.date || !formData.image) {
-      alert('Please fill in all required fields.');
+      alert('Please fill out all required fields.');
       return;
     }
 
@@ -53,10 +53,10 @@ const ComingEvents = () => {
       data.append('link', formData.link);
       data.append('image', formData.image);
 
-      const response = await axios.post(`${API_URL}/events`, data, {
+      const response = await axios.post(apiUrl, data, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       setEvents([...events, response.data]);
@@ -82,7 +82,7 @@ const ComingEvents = () => {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`${API_URL}/events/${eventId}`);
+      await axios.delete(`${apiUrl}/${eventId}`);
       setEvents(events.filter(event => event._id !== eventId));
     } catch (error) {
       console.error('Error deleting event:', error);
@@ -102,7 +102,7 @@ const ComingEvents = () => {
       <button className="add-event-btn" onClick={() => setShowModal(true)}>
         Add Event
       </button>
-      <button className="delete-event-btn" onClick={handleDeleteButtonClick} style={{ backgroundColor: 'red' }}>
+      <button className="delete-event-btn" onClick={handleDeleteButtonClick}>
         Delete Event
       </button>
       {showModal && (
@@ -172,7 +172,7 @@ const ComingEvents = () => {
             className={`event ${deleting ? 'wiggle' : ''}`}
             onClick={() => {
               if (deleting) {
-                if (window.confirm(`Are you sure you want to delete the event "${event.name}"?`)) {
+                if (window.confirm(`Are you sure you want to delete ${event.name}?`)) {
                   handleDeleteEvent(event._id);
                 }
               }
