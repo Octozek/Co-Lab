@@ -11,9 +11,11 @@ const Signup = () => {
     fullName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+  //  confirmPassword: "",
     role: "",
   });
+
+  const [confirm, setConfirm] = useState("");
 
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
@@ -26,10 +28,21 @@ const Signup = () => {
     });
   };
 
+  const handleConfirmChange = (event) => {  
+    const { value } = event.target;
+    setConfirm(value);
+  }
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+    // console.log(formState);
 
+    // check that field Password and Confirm password are equal 
+    if(confirm !== formState.password) {
+      console.log("Passwords do not match");
+      return;
+    }
+    
     try {
       const { data } = await addUser({
         variables: { ...formState },
@@ -83,8 +96,8 @@ const Signup = () => {
                   placeholder="Confirm Password"
                   name="confirmPassword"
                   type="password"
-                  value={formState.confirmPassword}
-                  onChange={handleChange}
+                  value={confirm}
+                  onChange={handleConfirmChange}
                 />
                 <div className="form-input">
                   <span>Role: </span>

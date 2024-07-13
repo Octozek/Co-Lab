@@ -19,20 +19,21 @@ const userSchema = new Schema({
     required: true,
     minlength: 8,
   },
-  confirmPassword: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords do not match!',
-    },
-  },
+  // confirmPassword: {
+  //   type: String,
+  //   required: true,
+  //   validate: {
+  //     validator: function (el) {
+  //       return el === this.password;
+  //     },
+  //     message: 'Passwords do not match!',
+  //   },
+  // },
   role: {
     type: String,
     required: true,
   },
+ 
  });
 
 userSchema.pre('save', async function (next) {
