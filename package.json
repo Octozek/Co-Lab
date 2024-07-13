@@ -10,7 +10,8 @@
     "build": "cd client && npm run build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "install": "cd server && npm i && cd ../client && npm i && npm run build",
-    "preview": "cd client && npm run preview"
+    "preview": "cd client && npm run preview",
+    "render-build": "npm install && npm run build"
   },
   "dependencies": {
     "concurrently": "^6.2.0",
