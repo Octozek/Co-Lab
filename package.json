@@ -14,9 +14,10 @@
     "render-build": "npm install && npm run build"
   },
   "dependencies": {
-    "concurrently": "^6.2.0",
     "@apollo/server": "^4.10.4",
     "bcrypt": "^5.1.1",
+    "concurrently": "^6.2.0",
+    "framer-motion": "^11.3.2",
     "graphql": "^16.9.0",
     "mongodb": "^6.8.0"
   },
