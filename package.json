@@ -1,7 +1,6 @@
 {
   "name": "co-lab",
   "version": "0.0.1",
-  "type": "module",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
