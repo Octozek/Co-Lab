@@ -1,0 +1,174 @@
+.lessons {
+  padding: 20px;
+}
+
+.add-lesson-btn,
+.delete-lesson-btn {
+  margin-right: 10px;
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-lesson-btn:hover,
+.delete-lesson-btn:hover {
+  background-color: darkblue;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.close-btn {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.lesson-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.lesson-date {
+  font-size: 14px;
+  color: gray;
+}
+
+.lesson-text {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.record-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.audio-controls {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.audio-controls button {
+  margin-bottom: 10px;
+}
+
+.lessons-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.lesson {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  border: 2px solid black;
+  transition: transform 0.3s;
+}
+
+.lesson.wiggle {
+  animation: wiggle 0.5s infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.lesson img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.lesson-details {
+  text-align: left;
+}
+
+.lesson-details h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.lesson-details p {
+  margin: 5px 0;
+}

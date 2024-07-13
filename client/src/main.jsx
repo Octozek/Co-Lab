@@ -12,8 +12,13 @@ import ComingEvents from './pages/ComingEvents.jsx'
 import Games from './pages/Games.jsx'
 import Lessons from './pages/Lessons.jsx'
 import Login from './pages/Login.jsx'
+import Signup from './pages/Signup';
 import PastEvents from './pages/PastEvents.jsx'
 import Settings from './pages/Settings.jsx'
+import Dice from './pages/GameTools/Dice.jsx'
+import Timer from './pages/GameTools/Timer.jsx'
+import Scoreboard from './pages/GameTools/Scoreboard.jsx'
+import SingleChat from './pages/SingleChat.jsx'
 
 const router = createBrowserRouter([
   {
@@ -42,6 +47,18 @@ const router = createBrowserRouter([
         element: <Games />,
       },
       {
+        path: '/games/dice',
+        element: <Dice />,
+      },
+      {
+        path: '/games/timer',
+        element: <Timer />,
+      },
+      {
+        path: '/games/scoreboard',
+        element: <Scoreboard />,
+      },      
+      {
         path: '/lessons',
         element: <Lessons />,
       },
@@ -50,12 +67,20 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: '/signup',
+        element: <Signup />
+      },
+      {
         path: '/past-events',
         element: <PastEvents />,
       },
       {
         path: '/settings',
         element: <Settings />,
+      },
+      {
+        path: '/chats/:chatId',
+        element: <SingleChat />,
       }
     ]
   }

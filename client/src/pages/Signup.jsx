@@ -1,17 +1,22 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../utils/mutations";
 
-import Auth from '../utils/auth';
+import Auth from "../utils/auth";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    fullName: '',
-    email: '',
-    password: '',
+    fullName: "",
+    email: "",
+    password: "",
+  //  confirmPassword: "",
+    role: "",
   });
+
+  const [confirm, setConfirm] = useState("");
+
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
@@ -23,10 +28,21 @@ const Signup = () => {
     });
   };
 
+  const handleConfirmChange = (event) => {  
+    const { value } = event.target;
+    setConfirm(value);
+  }
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+    // console.log(formState);
 
+    // check that field Password and Confirm password are equal 
+    if(confirm !== formState.password) {
+      console.log("Passwords do not match");
+      return;
+    }
+    
     try {
       const { data } = await addUser({
         variables: { ...formState },
@@ -46,7 +62,7 @@ const Signup = () => {
           <div className="card-body">
             {data ? (
               <p>
-                Success! You may now head{' '}
+                Success! You may now head{" "}
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
@@ -61,7 +77,7 @@ const Signup = () => {
                 />
                 <input
                   className="form-input"
-                  placeholder="Your email"
+                  placeholder="Your Email"
                   name="email"
                   type="email"
                   value={formState.email}
@@ -69,15 +85,56 @@ const Signup = () => {
                 />
                 <input
                   className="form-input"
-                  placeholder="******"
+                  placeholder="Enter Password"
                   name="password"
                   type="password"
                   value={formState.password}
                   onChange={handleChange}
                 />
+                <input
+                  className="form-input"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  value={confirm}
+                  onChange={handleConfirmChange}
+                />
+                <div className="form-input">
+                  <span>Role: </span>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Leader"
+                      checked={formState.role === "Leader"}
+                      onChange={handleChange}
+                    />{" "}
+                    Leader
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Student"
+                      checked={formState.role === "Student"}
+                      onChange={handleChange}
+                    />{" "}
+                    Student
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Guardian"
+                      checked={formState.role === "Guardian"}
+                      onChange={handleChange}
+                    />{" "}
+                    Guardian
+                  </label>
+                </div>
                 <button
                   className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   type="submit"
                 >
                   Submit

@@ -1,158 +1,256 @@
-import React, { useState, useEffect } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faTrashAlt, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useRef, useEffect } from 'react';
+import './Lessons.css';
 
 const Lessons = () => {
-  // Example lesson plans data (you would fetch or define this data)
-  const [lessonPlans, setLessonPlans] = useState([]);
-  const [newLessonTitle, setNewLessonTitle] = useState('');
-  const [newLessonDate, setNewLessonDate] = useState('');
-  const [newLessonSummary, setNewLessonSummary] = useState('');
-  const [newLessonIcon, setNewLessonIcon] = useState('');
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [lessons, setLessons] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    audio: null,
+    image: null,
+  });
+  const [recording, setRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [audioURL, setAudioURL] = useState(null);
+  const audioRef = useRef(null);
+  const [mediaStream, setMediaStream] = useState(null);
+  const [currentLesson, setCurrentLesson] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    // Example: Fetch lesson plans from an API
-    fetch('https://api.example.com/lesson-plans')
-      .then(response => response.json())
-      .then(data => setLessonPlans(data))
-      .catch(error => console.error('Error fetching lesson plans:', error));
-  }, []);
-
-  const handleAddLesson = () => {
-    // Example: Add a new lesson plan
-    const newLesson = {
-      title: newLessonTitle,
-      date: newLessonDate,
-      summary: newLessonSummary,
-      icon: newLessonIcon,
-      // Add other properties as needed (e.g., author, description)
+    if (audioRef.current) {
+      audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+      }
     };
+  }, [audioRef.current]);
 
-    // Example: Send new lesson plan to an API (simulated)
-    fetch('https://api.example.com/lesson-plans', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newLesson),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setLessonPlans([...lessonPlans, data]); // Update lesson plans with the newly added lesson
-        setNewLessonTitle('');
-        setNewLessonDate('');
-        setNewLessonSummary('');
-        setNewLessonIcon('');
-      })
-      .catch(error => console.error('Error adding lesson:', error));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleDeleteLesson = (lessonId) => {
-    // Example: Delete a lesson plan
-    fetch(`https://api.example.com/lesson-plans/${lessonId}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        const updatedLessonPlans = lessonPlans.filter(lesson => lesson.id !== lessonId);
-        setLessonPlans(updatedLessonPlans);
-      })
-      .catch(error => console.error('Error deleting lesson:', error));
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData({ ...formData, [name]: files[0] });
   };
 
-  const handleFileUpload = (e) => {
-    const uploadedFile = e.target.files[0];
-    setUploadedFile(uploadedFile);
-  };
-
-  const handleFileDownload = () => {
-    if (uploadedFile) {
-      const downloadUrl = URL.createObjectURL(uploadedFile);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.setAttribute('download', uploadedFile.name);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleRecord = async () => {
+    if (recording) {
+      mediaRecorder.stop();
+      mediaStream.getTracks().forEach(track => track.stop()); // Stop all tracks to turn off the mic
+      setRecording(false);
+    } else {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const newMediaRecorder = new MediaRecorder(stream);
+      setMediaStream(stream);
+      newMediaRecorder.ondataavailable = (e) => {
+        const audioBlob = new Blob([e.data], { type: 'audio/wav' });
+        const audioURL = URL.createObjectURL(audioBlob);
+        setFormData({ ...formData, audio: audioBlob });
+        setAudioURL(audioURL);
+      };
+      newMediaRecorder.start();
+      setMediaRecorder(newMediaRecorder);
+      setRecording(true);
     }
   };
 
+  const handleAddLesson = () => {
+    if (recording) {
+      mediaRecorder.stop();
+      mediaStream.getTracks().forEach(track => track.stop()); // Stop all tracks to turn off the mic
+      setRecording(false);
+    }
+    if (!formData.title || !formData.content) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setLessons([...lessons, { ...formData, id: lessons.length }]);
+    setShowModal(false);
+    setFormData({
+      title: '',
+      content: '',
+      audio: null,
+      image: null,
+    });
+    setAudioURL(null);
+  };
+
+  const handleCardClick = (lesson) => {
+    if (deleting) {
+      if (window.confirm('Are you sure you want to delete this lesson?')) {
+        setLessons(lessons.filter(l => l.id !== lesson.id));
+      }
+    } else {
+      setCurrentLesson(lesson);
+      setShowModal(true);
+      if (lesson.audio) {
+        const audioURL = URL.createObjectURL(lesson.audio);
+        audioRef.current.src = audioURL;
+      }
+    }
+  };
+
+  const closeModal = () => {
+    setCurrentLesson(null);
+    setShowModal(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setAudioProgress(0);
+    }
+  };
+
+  const handlePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+      setAudioProgress(progress);
+    }
+  };
+
+  const handleAudioProgressChange = (e) => {
+    if (audioRef.current) {
+      const newTime = (e.target.value / 100) * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+    }
+  };
+
+  const handleDeleteLesson = () => {
+    setDeleting(true);
+    setTimeout(() => {
+      setDeleting(false);
+    }, 10000);
+  };
+
   return (
-    <div>
+    <div className="lessons">
       <h1>Lessons</h1>
-      <p>Welcome to the lessons page!</p>
-
-      {/* Form for creating a new lesson */}
-      <form onSubmit={(e) => { e.preventDefault(); handleAddLesson(); }}>
-        <label>
-          Title:
-          <input
-            type="text"
-            value={newLessonTitle}
-            onChange={(e) => setNewLessonTitle(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Date:
-          <input
-            type="date"
-            value={newLessonDate}
-            onChange={(e) => setNewLessonDate(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Summary:
-          <textarea
-            value={newLessonSummary}
-            onChange={(e) => setNewLessonSummary(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Icon URL:
-          <input
-            type="text"
-            value={newLessonIcon}
-            onChange={(e) => setNewLessonIcon(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <button type="submit">Add Lesson</button>
-      </form>
-
-      {/* File upload input */}
-      <input type="file" onChange={handleFileUpload} />
-
-      {/* Display uploaded file details and download button */}
-      {uploadedFile && (
-        <div>
-          <p>Uploaded File: {uploadedFile.name}</p>
-          <button onClick={handleFileDownload}>
-            <FontAwesomeIcon icon={faFileDownload} /> Download
-          </button>
+      <button className="add-lesson-btn" onClick={() => setShowModal(true)}>
+        Add Lesson
+      </button>
+      <button className="delete-lesson-btn" onClick={handleDeleteLesson}>
+        Delete Lesson
+      </button>
+      {showModal && !currentLesson && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close-btn" onClick={closeModal}>
+              &times;
+            </span>
+            <div className="form-group">
+              <label>Lesson Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Lesson Content</label>
+              <textarea
+                name="content"
+                value={formData.content}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Lesson Image</label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+            <button
+              className={`record-btn ${recording ? 'recording' : ''}`}
+              onClick={handleRecord}
+              style={{ backgroundColor: recording ? 'red' : 'green' }}
+            >
+              {recording ? 'Stop Recording' : 'Record'}
+            </button>
+            <button className="submit-btn" onClick={handleAddLesson}>
+              Done
+            </button>
+          </div>
         </div>
       )}
-
-      {/* List of existing lesson plans */}
-      <ul>
-        {lessonPlans.map(lessonPlan => (
-          <li key={lessonPlan.id}>
-            <h2>{lessonPlan.title}</h2>
-            <p>Date: {lessonPlan.date}</p>
-            <p>Summary: {lessonPlan.summary}</p>
-            <img src={lessonPlan.icon} alt="Lesson Icon" style={{ maxWidth: '100px' }} />
-            <button onClick={() => handleDeleteLesson(lessonPlan.id)}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-            </button>
-          </li>
+      {showModal && currentLesson && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close-btn" onClick={closeModal}>
+                &times;
+              </span>
+              <h2 className="lesson-title">{currentLesson.title}</h2>
+              <p className="lesson-date">{new Date().toLocaleDateString()}</p>
+            </div>
+            <div className="modal-body">
+              <div className="lesson-text">
+                <p>{currentLesson.content}</p>
+              </div>
+            </div>
+            {currentLesson.audio && (
+              <div className="audio-controls">
+                <button onClick={handlePlayPause}>
+                  {isPlaying ? 'Pause' : 'Play'}
+                </button>
+                <input
+                  type="range"
+                  value={audioProgress}
+                  onChange={handleAudioProgressChange}
+                  style={{ width: '100%' }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      <div className="lessons-list">
+        {lessons.map((lesson, index) => (
+          <div
+            key={index}
+            className={`lesson ${deleting ? 'wiggle' : ''}`}
+            onClick={() => handleCardClick(lesson)}
+          >
+            {lesson.image && (
+              <img
+                src={URL.createObjectURL(lesson.image)}
+                alt="Lesson"
+                className="lesson-image"
+              />
+            )}
+            <div className="lesson-details">
+              <h2>{lesson.title}</h2>
+              <p>Date: {new Date().toLocaleDateString()}</p>
+              <p>{lesson.content.substring(0, 100)}...</p>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
+      <audio ref={audioRef} />
     </div>
   );
 };
