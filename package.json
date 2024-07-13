@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server && nodemon server.js",
+    "server": "cd server && npm start",
     "client": "cd client && npm start",
     "build": "cd client && npm run build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
