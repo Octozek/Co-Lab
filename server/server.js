@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .catch((err) => {
   console.error('Error connecting to MongoDB:', err.message);
+  process.exit(1); // Exit the process with an error code
 });
 
 app.use('/api', eventRoutes);
