@@ -5,6 +5,7 @@ class AuthService {
   
     const decoded = decode(this.getToken());
     // console.log("decoded", decoded)
+    // const role = decoded.role;
     return decoded;
     // return decode(this.getToken());
   }

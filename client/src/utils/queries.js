@@ -6,6 +6,7 @@ export const QUERY_USER = gql`
       _id
       fullName
       email
+      role
       chats {
         _id
         chatText
@@ -49,6 +50,7 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
+      role
       chats {
         _id
         chatText
