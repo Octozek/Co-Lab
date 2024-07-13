@@ -8,6 +8,8 @@ const Header = () => {
   };
     return (
         <header>
+              <h1>Co-Lab</h1>
+          
             <Link to ="/">Home</Link>
             <br/>
             <img src="https://via.placeholder.com/150" alt="Group Logo" />
@@ -15,7 +17,9 @@ const Header = () => {
             <div>
           {Auth.loggedIn() ? (
             <>
-                            
+            <Link to="/settings">
+            <img src='../../../public/imgs/settings.png' alt='settings' />
+            </Link>    
               <button className="btn btn-lg btn-light m-2" onClick={logout}>
                 Logout
               </button>
@@ -32,10 +36,7 @@ const Header = () => {
             </>
           )}
         </div>
-            <h1>Group Title</h1>
-            <Link to="/settings">
-            <img src='../../../public/imgs/settings.png' alt='settings' />
-            </Link>
+            
         </header>
     )
     }
