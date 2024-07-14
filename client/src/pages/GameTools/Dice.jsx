@@ -16,7 +16,7 @@ const RollDice = () => {
 
   return (
     <div className="roll-dice" style={{ textAlign: 'center' }}>
-      <h1>Pair of Dice</h1>
+      <h2>Pair of Dice</h2>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '30px' }}>
         <motion.img
           key={key + 'dice1'} // Unique key for each dice

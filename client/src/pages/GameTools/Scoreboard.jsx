@@ -44,7 +44,67 @@ export default function Scoreboard() {
 
   return (
     <div>
-      <h1>Scoreboard</h1>
+      <style>{`
+        button {
+          margin-left: 10px;
+        }
+        .list {
+          display: flex;
+          list-style-type: none;
+          padding: 0;
+          flex-wrap: wrap;
+          width: 100%
+        }
+        li {
+          margin-bottom: 5px;
+        }
+        
+        h2 {
+          margin-top: 20px;
+        }
+
+        input {
+          margin-right: 10px;
+        }
+
+        p {
+          margin-top: 10px;
+        }
+
+        button {
+          padding: 10px 20px;
+          margin: 10px;
+          border: white 1px solid;
+        }
+        .remove-button {
+          background-color: red;
+          color: white;
+          padding: 10px;
+          margin-left: 10px;
+          border: white 1px solid;
+        }
+        .add-button {
+          background-color: green;
+          color: white;
+          padding: 10px;
+          font-size: 12px;
+          border: white 1px solid;
+        }
+        .bracket-match {
+          font-size: 20px;
+          font-weight: bold;
+          border: 1px solid gray;
+          border-radius: 5px;
+          padding: 10px;
+          display: inline-block;
+        }
+        .each-bracket {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+      `}</style>
+      <h2>Scoreboard</h2>
 
       <input
         type="text"
@@ -53,33 +113,35 @@ export default function Scoreboard() {
         placeholder="Enter Player Name"
       />
 
-      <button onClick={addPlayer}>Add Player</button>
+      <button className='add-button' onClick={addPlayer}>+</button>
       {/* Display number of players */}
       <p>
         {players.length} player{players.length !== 1 && "s"}
       </p>
+      <p>
+        Click on a player to remove them from the list.
+      </p>
       {/* List of players with remove button for each player */}
-      <ul>
+      <ul className="list">
         {players.map((player, index) => (
           <li key={index}>
-            {player}
-            <button onClick={() => removePlayer(index)}>Remove</button>
+            <button className='remove-button'onClick={() => removePlayer(index)}>{player}</button>
           </li>
         ))}
       </ul>
 
-      <button onClick={() => setPlayers([])}>Clear Players</button>
+      <button onClick={() => setPlayers([])}>Clear All</button>
 
       <button onClick={() => makeBracket()}>Make Bracket</button>
 
       <h2>Bracket</h2>
       {/* Conditional rendering of bracket matches */}
       {bracket.length > 0 ? (
-        <div>
+        <div className="each-bracket">
           {bracket.map((match, index) => (
             <div key={index}>
-              <p>Match {index + 1}</p>
-              <p>
+              <h3>Match {index + 1}</h3>
+              <p className="bracket-match">
                 {match[0]} vs {match[1]}
               </p>
             </div>
@@ -88,7 +150,7 @@ export default function Scoreboard() {
       ) : (
         <p>No bracket generated yet.</p>
       )}
-      <button onClick={() => setBracket([])}>Clear Bracket</button>
+      <button onClick={() => setBracket([])}>Reset Bracket</button>
     </div>
   );
 }
