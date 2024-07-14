@@ -17,7 +17,7 @@ const ComingEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/events');
+        const response = await axios.get('/api/events');
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -59,7 +59,7 @@ const ComingEvents = () => {
       data.append('link', formData.link);
       data.append('image', formData.image);
 
-      const response = await axios.post('http://localhost:3001/api/events', data, {
+      const response = await axios.post('/api/events', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -82,7 +82,7 @@ const ComingEvents = () => {
   const handleDeleteEvent = async (eventId) => {
     if (window.confirm(`Are you sure you want to delete the event?`)) {
       try {
-        await axios.delete(`http://localhost:3001/api/events/${eventId}`);
+        await axios.delete(`/api/events/${eventId}`);
         setEvents(events.filter(event => event._id !== eventId));
       } catch (error) {
         console.error('Error deleting event:', error);

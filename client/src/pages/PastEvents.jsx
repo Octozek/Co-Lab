@@ -1,5 +1,5 @@
-// client/src/pages/PastEvents.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './PastEvents.css';
 
 const PastEvents = () => {
@@ -13,6 +13,23 @@ const PastEvents = () => {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    fetchPastEvents();
+  }, []);
+
+  const fetchPastEvents = async () => {
+    try {
+      const response = await axios.get('/api/past-events');
+      if (Array.isArray(response.data)) {
+        setPastEvents(response.data);
+      } else {
+        console.error('Unexpected response data:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching past events:', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,18 +45,31 @@ const PastEvents = () => {
     setFormData({ ...formData, images: files });
   };
 
-  const handleAddPastEvent = () => {
+  const handleAddPastEvent = async () => {
     if (!formData.title || !formData.date || formData.images.length === 0) {
       alert('Please fill in all required fields and upload at least one image.');
       return;
     }
-    setPastEvents([...pastEvents, { ...formData, id: pastEvents.length }]);
-    setShowModal(false);
-    setFormData({
-      title: '',
-      date: '',
-      images: [],
+
+    const eventFormData = new FormData();
+    eventFormData.append('title', formData.title);
+    eventFormData.append('date', formData.date);
+    formData.images.forEach((image, index) => {
+      eventFormData.append('images', image);
     });
+
+    try {
+      const response = await axios.post('/api/past-events', eventFormData);
+      setPastEvents([...pastEvents, response.data]);
+      setShowModal(false);
+      setFormData({
+        title: '',
+        date: '',
+        images: [],
+      });
+    } catch (error) {
+      console.error('Error adding past event:', error);
+    }
   };
 
   const handleEventClick = (event) => {
@@ -118,14 +148,14 @@ const PastEvents = () => {
       )}
       <div className="events-list">
         {filteredEvents.map((event) => (
-          <div key={event.id} className="event" onClick={() => handleEventClick(event)}>
+          <div key={event._id} className="event" onClick={() => handleEventClick(event)}>
             <div className="event-overlay">
               <h2 className="event-title">{event.title}</h2>
               <p className="event-date">{event.date}</p>
             </div>
             <div className="event-images-scattered">
               {event.images.map((image, index) => (
-                <img key={index} src={URL.createObjectURL(image)} alt={event.title} />
+                <img key={index} src={`data:image/jpeg;base64,${image}`} alt={event.title} />
               ))}
             </div>
           </div>
@@ -141,7 +171,7 @@ const PastEvents = () => {
             <p>{selectedEvent.date}</p>
             <div className="event-images-grid">
               {selectedEvent.images.map((image, index) => (
-                <img key={index} src={URL.createObjectURL(image)} alt={selectedEvent.title} />
+                <img key={index} src={`data:image/jpeg;base64,${image}`} alt={selectedEvent.title} />
               ))}
             </div>
           </div>

@@ -6,7 +6,7 @@ const Event = require('../models/Event');
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Create a new event
-router.post('/events', upload.single('image'), async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   try {
     const event = new Event({
       name: req.body.name,
@@ -23,7 +23,7 @@ router.post('/events', upload.single('image'), async (req, res) => {
 });
 
 // Get all events
-router.get('/events', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const events = await Event.find();
     res.status(200).json(events);
@@ -33,7 +33,7 @@ router.get('/events', async (req, res) => {
 });
 
 // Delete an event
-router.delete('/events/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });

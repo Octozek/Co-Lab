@@ -4,10 +4,10 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const cors = require('cors');
 const { authMiddleware } = require('./utils/auth');
-
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 const eventRoutes = require('./routes/eventRoutes');
+const pastEventRoutes = require('./routes/pastEventRoutes'); // Import past event routes
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -27,7 +27,8 @@ const startApolloServer = async () => {
     context: authMiddleware
   }));
 
-  app.use('/api', eventRoutes);
+  app.use('/api/events', eventRoutes); // Ensure event routes are set correctly
+  app.use('/api/past-events', pastEventRoutes); // Ensure past event routes are set correctly
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
