@@ -8,12 +8,15 @@ const resolvers = {
     },
     user: async (parent, { email }) => {
       return User.findOne({ email });
+
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        const userData = await User.findOne({ _id: context.user._id })
+          .select('-__v -password');
+        return userData;
       }
-      throw AuthenticationError;
+      throw new AuthenticationError('Not logged in');
     },
     getChats: async (parent, { fullName }) => {
       const params = fullName ? { fullName } : {};
