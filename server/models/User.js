@@ -17,8 +17,23 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 8,
   },
+  // confirmPassword: {
+  //   type: String,
+  //   required: true,
+  //   validate: {
+  //     validator: function (el) {
+  //       return el === this.password;
+  //     },
+  //     message: 'Passwords do not match!',
+  //   },
+  // },
+  role: {
+    type: String,
+    required: true,
+  },
+ 
  });
 
 userSchema.pre('save', async function (next) {
