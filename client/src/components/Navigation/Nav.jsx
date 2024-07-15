@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
+import Auth from "../../utils/auth";
+
 export default function Nav() {
+
+  if (!Auth.loggedIn()) {
+    return null;
+  }
+
   return (
     <nav>
       <div className="nav-link">
