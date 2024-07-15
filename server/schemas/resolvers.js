@@ -26,6 +26,13 @@ const resolvers = {
     getSingleChat: async (parent, { chatId }) => {
       return Chat.findOne({ _id: chatId });
     },
+    getChats: async (parent, { fullName }) => {
+      const params = fullName ? { fullName } : {};
+      return Chat.find(params).sort({ createdAt: -1 });
+    },
+    getSingleChat: async (parent, { chatId }) => {
+      return Chat.findOne({ _id: chatId });
+    },
   },
   
   Mutation: {

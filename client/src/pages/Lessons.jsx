@@ -240,7 +240,7 @@ const Lessons = () => {
             <button
               className={`record-btn ${recording ? 'recording' : ''}`}
               onClick={handleRecord}
-              style={{ backgroundColor: recording ? 'red' : 'green' }}
+              style={{ backgroundColor: recording ? '#85c7e4' : '#d2f189' }}
             >
               {recording ? 'Stop Recording' : 'Record'}
             </button>

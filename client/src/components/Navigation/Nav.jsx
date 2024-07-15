@@ -8,7 +8,7 @@ export default function Nav() {
   }
 
   return (
-    <nav>
+    <nav className="icons-container">
       <div className="nav-link">
         <Link to="/coming-events">
           <img
