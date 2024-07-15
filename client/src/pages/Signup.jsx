@@ -16,6 +16,7 @@ const Signup = () => {
   });
 
   const [confirm, setConfirm] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
@@ -38,10 +39,12 @@ const Signup = () => {
     // console.log(formState);
 
     // check that field Password and Confirm password are equal 
-    if(confirm !== formState.password) {
-      console.log("Passwords do not match");
+    if (confirm !== formState.password) {
+      setErrorMessage("Passwords do not match");
       return;
     }
+
+    setErrorMessage('');
     
     try {
       const { data } = await addUser({
@@ -141,13 +144,15 @@ const Signup = () => {
                 </button>
               </form>
             )}
-
+{errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
             {error && (
-              <div className="my-3 p-3 bg-danger text-white">
+              <div style={{ color: 'red' }} className="my-3 p-3 bg-danger text-white">
                 {error.message}
+                
               </div>
             )}
           </div>
+          
         </div>
       </div>
     </main>

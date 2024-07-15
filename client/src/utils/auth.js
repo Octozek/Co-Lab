@@ -39,8 +39,22 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('id_token');
-    window.location.reload();
+    window.location.assign('/');
   }
+
+  isLeader() {
+    const profile = this.getProfile();
+    return profile.role === 'Leader';
+  }
+  
+  isGuardian() {
+    const profile = this.getProfile();
+    // console.log("profile", profile) 
+    return profile.role === 'Guardian';
+  }
+
 }
+
+
 
 export default new AuthService();

@@ -50,13 +50,7 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
-      role
-      chats {
-        _id
-        chatText
-        chatAuthor
-        createdAt
-      }
+      role  
     }
   }
 `;
