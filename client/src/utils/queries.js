@@ -16,6 +16,17 @@ export const QUERY_USER = gql`
   }
 `;
 
+export const QUERY_USERS = gql`
+  query getUsers {
+    getUsers {
+      _id
+      fullName
+      email
+      role
+    }
+  }
+`;
+
 export const QUERY_CHATS = gql`
   query getChats {
     getChats {
@@ -50,13 +61,7 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
-      role
-      chats {
-        _id
-        chatText
-        chatAuthor
-        createdAt
-      }
+      role  
     }
   }
 `;

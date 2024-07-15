@@ -1,8 +1,8 @@
-import ReactDOM from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import App from './App.jsx'
-import './index.css'
+import App from "./App.jsx";
+import "./index.css";
 
 import Home from './pages/Home.jsx'
 import Error from './pages/Error.jsx'
@@ -22,60 +22,60 @@ import SingleChat from './pages/SingleChat.jsx'
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     errorElement: <Error />,
     children: [
       {
-        index : true,
+        index: true,
         element: <Home />,
       },
       {
-        path: '/about-leader',
+        path: "/about-leader",
         element: <AboutLeader />,
       },
       {
-        path: '/chat',
+        path: "/chat",
         element: <Chat />,
       },
       {
-        path: '/coming-events',
+        path: "/coming-events",
         element: <ComingEvents />,
       },
       {
-        path: '/games',
+        path: "/games",
         element: <Games />,
       },
       {
-        path: '/games/dice',
+        path: "/games/dice",
         element: <Dice />,
       },
       {
-        path: '/games/timer',
+        path: "/games/timer",
         element: <Timer />,
       },
       {
-        path: '/games/scoreboard',
+        path: "/games/scoreboard",
         element: <Scoreboard />,
-      },      
+      },
       {
-        path: '/lessons',
+        path: "/lessons",
         element: <Lessons />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/signup',
-        element: <Signup />
+        path: "/signup",
+        element: <Signup />,
       },
       {
-        path: '/past-events',
+        path: "/past-events",
         element: <PastEvents />,
       },
       {
-        path: '/settings',
+        path: "/settings",
         element: <Settings />,
       },
       {
@@ -86,6 +86,7 @@ const router = createBrowserRouter([
   }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
-)
+);

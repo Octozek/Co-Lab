@@ -3,17 +3,28 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find();
+    getUsers: async () => {
+      return User.find().select('-__v -password');
     },
+    
     user: async (parent, { email }) => {
       return User.findOne({ email });
+
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        const userData = await User.findOne({ _id: context.user._id })
+          .select('-__v -password');
+        return userData;
       }
-      throw AuthenticationError;
+      throw new AuthenticationError('Not logged in');
+    },
+    getChats: async (parent, { fullName }) => {
+      const params = fullName ? { fullName } : {};
+      return Chat.find(params).sort({ createdAt: -1 });
+    },
+    getSingleChat: async (parent, { chatId }) => {
+      return Chat.findOne({ _id: chatId });
     },
     getChats: async (parent, { fullName }) => {
       const params = fullName ? { fullName } : {};

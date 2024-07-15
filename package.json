@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "concurrently": "^6.2.0",
     "framer-motion": "^11.3.2",

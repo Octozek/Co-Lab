@@ -1,55 +1,58 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from "@apollo/client";
+// import Auth from '../utils/auth';
+import ChatList from "../components/ChatList";
+import ChatForm from "../components/ChatForm";
 
-import ChatList from '../components/ChatList';
-import ChatForm from '../components/ChatForm';
-
-import { QUERY_CHATS, QUERY_ME } from '../utils/queries';
+import { QUERY_CHATS, QUERY_USERS, QUERY_ME } from "../utils/queries";
 
 const Chat = () => {
+  // const { userLoading, userData } = useQuery(QUERY_ME);
+  // const currentUser = userData?.me || {};
+  // console.log("currentUser", userData)
 
-  const { userLoading, userData } = useQuery(QUERY_ME);
-  const { loading, data } = useQuery(QUERY_CHATS);
+  // const { loading, data } = useQuery(QUERY_CHATS);
+  // const chats = data?.getChats || [];
+  // console.log("chats", chats)
+
+  const { loading: chatsLoading, data: chatsData } = useQuery(QUERY_CHATS);
+  const { loading: usersLoading, data: usersData } = useQuery(QUERY_USERS);
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const chats = chatsData?.getChats || [];
+  const users = usersData?.getUsers || [];
   const currentUser = userData?.me || {};
-  const chats = data?.getChats || [];
-// console.log("chats", data)
+  console.log("users", users);
+
   return (
     <main>
       <div className="flex-row justify-center">
-        <div
-          className="col-12 col-md-10 mb-3 p-3"
-          style={{ border: '1px dotted #1a1a1a' }}
-        >
-          <ChatForm />
-        </div>
-        <div className="col-12 col-md-8 mb-3">
-          {loading ? (
-            <div>Loading...</div>
+        <div id="userListContainer" className="col-12 col-md-6 mb-3">
+          <h3>Chat Members</h3>
+          {usersLoading ? (
+            <p>Loading users...</p>
           ) : (
-            <ChatList
-              chats={chats}
-              title="Current Chat(s)..."
-            />
+            <ul>
+              {users.map((user) => (
+                <li key={user._id}>{user.fullName}</li>
+              ))}
+            </ul>
           )}
         </div>
+        {currentUser.role !== "Guardian" && (
+          <div
+            id="chatFormContainer"
+            className="col-12 col-md-6 mb-3"
+            style={{ border: "1px dotted #1a1a1a" }}
+          >
+            <ChatForm />
+          </div>
+        )}
 
-
-        <div className="col-12 col-md-8 mb-3">
-          { currentUser.role === "Leader" ? (
-            <div>Leader Page...</div>
-          ) : currentUser.role === "Student" ? (
-            <div>Student Page</div>
-          ) : currentUser.role === "Guardian" ? (
-            <div>Guardian Page...</div>
-          ) : null }
-
-          {/* { currentUser.role === "Leader" ? (
-            <div>Leader Page...</div>
-          ) : null }
-          { currentUser.role === "Student" ? (
-            <div>Student Page</div>    ) : null }
-          { currentUser.role === "Guardian" ? (
-            <div>Guardian Page...</div>
-          ) : null } */}
+        <div id="chatListContainer" className="col-12 col-md-8 mb-3">
+          {chatsLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <ChatList chats={chats} title="Current Chat(s)..." />
+          )}
         </div>
       </div>
     </main>

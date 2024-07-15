@@ -40,7 +40,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    users: [User]
+    getUsers: [User]
     user(fullName: String!): User
     getChats(fullName: String): [Chat]
     getSingleChat(chatId: ID!): Chat
