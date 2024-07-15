@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 // import Auth from '../utils/auth';
-import React, { useEffect, useState } from "react";
 import ChatList from "../components/ChatList";
 import ChatForm from "../components/ChatForm";
 
