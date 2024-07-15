@@ -5,7 +5,7 @@
   font-weight: 400;
   color-scheme: light dark;
   color: #fcefe6;
-  background-image: url(./imgs/Main.png);
+  background-image: url(../public/imgs/Main.png);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
