@@ -1,23 +1,28 @@
 // Import the `useParams()` hook
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import Auth from "../utils/auth";
+// import Auth from "../utils/auth";
 
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
 
-import { QUERY_SINGLE_CHAT } from "../utils/queries";
+import { QUERY_SINGLE_CHAT, QUERY_ME } from "../utils/queries";
 
 const SingleChat = () => {
   // Use `useParams()` to retrieve value of the route parameter `:profileId`
   const { chatId } = useParams();
 
   const { loading, data } = useQuery(QUERY_SINGLE_CHAT, {
+
     // pass URL parameter
     variables: { chatId: chatId },
   });
   // console.log("data", data)
   const chat = data?.getSingleChat || {};
+
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -47,7 +52,7 @@ const SingleChat = () => {
       <div className="my-5">
         <CommentList comments={chat.comments} />
       </div>
-      {Auth.isGuardian() && (
+      {currentUser.role !== 'Guardian' && (
         <div className="m-3 p-4" style={{ border: "1px dotted #1a1a1a" }}>
           <CommentForm chatId={chat._id} />
         </div>
