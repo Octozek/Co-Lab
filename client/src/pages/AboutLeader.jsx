@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export default function AboutLeader() {
     const fullName = 'John Doe';
@@ -12,9 +12,9 @@ export default function AboutLeader() {
             <h1>About Leader</h1>
             <h2>{fullName}</h2>
             <p><strong>Contact me at {phoneNumber} or {email}.</strong></p>
-            <img src={headShot} alt={`${firstName} ${lastName}`} />
+            <img src={headShot} alt={`${fullName}`} />
             <p>{aboutMe}</p>
         </div>
     );
-};
+}
 
