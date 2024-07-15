@@ -3,13 +3,13 @@ export default function GameButtons() {
   const games = [
     {
       title: "Pair of Dice",
-      image: "./public/imgs/dice.png",
+      image: "./imgs/dice.png",
       description: "Need a pair of dice? Click here to roll them!",
       path: "/games/dice",
     },
     {
       title: "Timer",
-      image: "./public/imgs/stopwatch.png",
+      image: "./imgs/stopwatch.png",
       description: "Need a timer? Click here to start one!",
       path: "/games/timer",
     },

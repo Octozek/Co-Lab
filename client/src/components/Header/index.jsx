@@ -37,7 +37,7 @@ const Header = () => {
       <h1>Group Title</h1>
       <div className="settings-icon">
       <Link to="/settings">
-        <img src='../../../public/imgs/settings.png' alt='settings' />
+        <img src='./imgs/settings.png' alt='settings' />
       </Link>
       </div>
     </header>
