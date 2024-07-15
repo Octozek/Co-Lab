@@ -23,11 +23,6 @@ export const QUERY_USERS = gql`
       fullName
       email
       role
-      chats {
-        _id
-        chatText
-        createdAt
-      }
     }
   }
 `;

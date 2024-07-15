@@ -1,34 +1,49 @@
 import { useQuery } from '@apollo/client';
-import Auth from '../utils/auth';
+// import Auth from '../utils/auth';
+import React, { useEffect, useState } from 'react';
 import ChatList from '../components/ChatList';
 import ChatForm from '../components/ChatForm';
 
-import { QUERY_CHATS, QUERY_ME } from '../utils/queries';
+import { QUERY_CHATS, QUERY_USERS } from '../utils/queries';
 
 const Chat = () => {
 
-  const { userLoading, userData } = useQuery(QUERY_ME);
-  const currentUser = userData?.me || {};
-  console.log("currentUser", userData)
-
+  // const { userLoading, userData } = useQuery(QUERY_ME);
+  // const currentUser = userData?.me || {};
+  // console.log("currentUser", userData)
   
-  const { loading, data } = useQuery(QUERY_CHATS);
-  const chats = data?.getChats || [];
-  console.log("chats", chats)
+  // const { loading, data } = useQuery(QUERY_CHATS);
+  // const chats = data?.getChats || [];
+  // console.log("chats", chats)
 
-  
+  const { loading: chatsLoading, data: chatsData } = useQuery(QUERY_CHATS);
+  const { loading: usersLoading, data: usersData } = useQuery(QUERY_USERS);
+  const chats = chatsData?.getChats || [];
+  const users = usersData?.getUsers || [];
 
   return (
     <main>
-      <div className="flex-row justify-center">
-        <div
-          className="col-12 col-md-10 mb-3 p-3"
-          style={{ border: '1px dotted #1a1a1a' }}
-        >
+     
+       <div className="flex-row justify-center">
+        <div id="userListContainer" className="col-12 col-md-6 mb-3">
+          <h3>Chat Members</h3>
+          {usersLoading ? (
+            <p>Loading users...</p>
+          ) : (
+            <ul>
+              {users.map((user) => (
+                <li key={user._id}>{user.fullName}</li>
+              ))}
+            </ul>
+          )}
+     
+        </div>
+        <div id="chatFormContainer" className="col-12 col-md-6 mb-3" style={{ border: '1px dotted #1a1a1a' }}>
           <ChatForm />
         </div>
-        <div className="col-12 col-md-8 mb-3">
-          {loading ? (
+     
+        <div id="chatListContainer" className="col-12 col-md-8 mb-3">
+          {chatsLoading ? (
             <div>Loading...</div>
           ) : (
             <ChatList
@@ -36,27 +51,6 @@ const Chat = () => {
               title="Current Chat(s)..."
             />
           )}
-        </div>
-
-
-        <div className="col-12 col-md-8 mb-3">
-
-          {/* { currentUser.role === "Leader" ? (
-            <div>Leader Page...</div>
-          ) : currentUser.role === "Student" ? (
-            <div>Student Page</div>
-          ) : currentUser.role === "Guardian" ? (
-            <div>Guardian Page...</div>
-          ) : null } */}
-
-          {/* { currentUser.role === "Leader" ? (
-            <div>Leader Page...</div>
-          ) : null }
-          { currentUser.role === "Student" ? (
-            <div>Student Page</div>    ) : null }
-          { currentUser.role === "Guardian" ? (
-            <div>Guardian Page...</div>
-          ) : null } */}
         </div>
       </div>
     </main>

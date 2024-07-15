@@ -4,8 +4,9 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 const resolvers = {
   Query: {
     getUsers: async () => {
-      return User.find().populate('chats');
+      return User.find().select('-__v -password');
     },
+    
     user: async (parent, { email }) => {
       return User.findOne({ email });
 
