@@ -1,3 +1,4 @@
+// server/models/Lesson.js
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
@@ -15,6 +16,12 @@ const lessonSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  audio: {
+    type: String,
+  },
+  image: {
+    type: String,
   },
   createdAt: {
     type: Date,
