@@ -7,7 +7,8 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 const eventRoutes = require('./routes/eventRoutes');
-const pastEventRoutes = require('./routes/pastEventRoutes'); // Import past event routes
+const pastEventRoutes = require('./routes/pastEventRoutes');
+const lessonRoutes = require('./routes/lessonRoutes'); // Import lesson routes
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,6 +30,7 @@ const startApolloServer = async () => {
 
   app.use('/api/events', eventRoutes); // Ensure event routes are set correctly
   app.use('/api/past-events', pastEventRoutes); // Ensure past event routes are set correctly
+  app.use('/api/lessons', lessonRoutes); // Use lesson
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));

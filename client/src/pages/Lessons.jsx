@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import './Lessons.css';
 
 const Lessons = () => {
   const [lessons, setLessons] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
+    lessonTitle: '',
+    lessonDetails: '',
+    lessonAuthor: '',
     audio: null,
     image: null,
   });
@@ -21,6 +23,10 @@ const Lessons = () => {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    fetchLessons();
+  }, []);
+
+  useEffect(() => {
     if (audioRef.current) {
       audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
     }
@@ -30,6 +36,15 @@ const Lessons = () => {
       }
     };
   }, [audioRef.current]);
+
+  const fetchLessons = async () => {
+    try {
+      const response = await axios.get('/api/lessons');
+      setLessons(response.data);
+    } catch (error) {
+      console.error('Error fetching lessons:', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,39 +77,67 @@ const Lessons = () => {
     }
   };
 
-  const handleAddLesson = () => {
+  const handleAddLesson = async () => {
     if (recording) {
       mediaRecorder.stop();
       mediaStream.getTracks().forEach(track => track.stop()); // Stop all tracks to turn off the mic
       setRecording(false);
     }
-    if (!formData.title || !formData.content) {
+    if (!formData.lessonTitle || !formData.lessonDetails || !formData.lessonAuthor) {
       alert('Please fill in all required fields.');
       return;
     }
-    setLessons([...lessons, { ...formData, id: lessons.length }]);
-    setShowModal(false);
-    setFormData({
-      title: '',
-      content: '',
-      audio: null,
-      image: null,
-    });
-    setAudioURL(null);
+
+    const lessonFormData = new FormData();
+    lessonFormData.append('lessonTitle', formData.lessonTitle);
+    lessonFormData.append('lessonDetails', formData.lessonDetails);
+    lessonFormData.append('lessonAuthor', formData.lessonAuthor);
+    if (formData.image) {
+      lessonFormData.append('image', formData.image);
+    }
+    if (formData.audio) {
+      lessonFormData.append('audio', formData.audio);
+    }
+
+    try {
+      const response = await axios.post('/api/lessons', lessonFormData);
+      setLessons([...lessons, response.data]);
+      setShowModal(false);
+      setFormData({
+        lessonTitle: '',
+        lessonDetails: '',
+        lessonAuthor: '',
+        audio: null,
+        image: null,
+      });
+      setAudioURL(null);
+    } catch (error) {
+      console.error('Error adding lesson:', error);
+    }
   };
 
   const handleCardClick = (lesson) => {
     if (deleting) {
       if (window.confirm('Are you sure you want to delete this lesson?')) {
-        setLessons(lessons.filter(l => l.id !== lesson.id));
+        handleDeleteLesson(lesson._id);
       }
     } else {
       setCurrentLesson(lesson);
       setShowModal(true);
       if (lesson.audio) {
-        const audioURL = URL.createObjectURL(lesson.audio);
+        const audioURL = `data:audio/wav;base64,${lesson.audio}`;
+        setAudioURL(audioURL);
         audioRef.current.src = audioURL;
       }
+    }
+  };
+
+  const handleDeleteLesson = async (lessonId) => {
+    try {
+      await axios.delete(`/api/lessons/${lessonId}`);
+      setLessons(lessons.filter(lesson => lesson._id !== lessonId));
+    } catch (error) {
+      console.error('Error deleting lesson:', error);
     }
   };
 
@@ -134,7 +177,7 @@ const Lessons = () => {
     }
   };
 
-  const handleDeleteLesson = () => {
+  const handleDeleteButtonClick = () => {
     setDeleting(true);
     setTimeout(() => {
       setDeleting(false);
@@ -147,7 +190,7 @@ const Lessons = () => {
       <button className="add-lesson-btn" onClick={() => setShowModal(true)}>
         Add Lesson
       </button>
-      <button className="delete-lesson-btn" onClick={handleDeleteLesson}>
+      <button className="delete-lesson-btn" onClick={handleDeleteButtonClick}>
         Delete Lesson
       </button>
       {showModal && !currentLesson && (
@@ -160,8 +203,8 @@ const Lessons = () => {
               <label>Lesson Title</label>
               <input
                 type="text"
-                name="title"
-                value={formData.title}
+                name="lessonTitle"
+                value={formData.lessonTitle}
                 onChange={handleInputChange}
                 required
               />
@@ -169,8 +212,18 @@ const Lessons = () => {
             <div className="form-group">
               <label>Lesson Content</label>
               <textarea
-                name="content"
-                value={formData.content}
+                name="lessonDetails"
+                value={formData.lessonDetails}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Lesson Author</label>
+              <input
+                type="text"
+                name="lessonAuthor"
+                value={formData.lessonAuthor}
                 onChange={handleInputChange}
                 required
               />
@@ -204,12 +257,12 @@ const Lessons = () => {
               <span className="close-btn" onClick={closeModal}>
                 &times;
               </span>
-              <h2 className="lesson-title">{currentLesson.title}</h2>
-              <p className="lesson-date">{new Date().toLocaleDateString()}</p>
-            </div>
+              <h2 className="lesson-title">{currentLesson.lessonTitle}</h2>
+              <p className="lesson-date">{new Date(currentLesson.createdAt).toLocaleDateString()}</p>
+              </div>
             <div className="modal-body">
               <div className="lesson-text">
-                <p>{currentLesson.content}</p>
+                <p>{currentLesson.lessonDetails}</p>
               </div>
             </div>
             {currentLesson.audio && (
@@ -237,15 +290,15 @@ const Lessons = () => {
           >
             {lesson.image && (
               <img
-                src={URL.createObjectURL(lesson.image)}
+                src={`data:image/jpeg;base64,${lesson.image}`}
                 alt="Lesson"
                 className="lesson-image"
               />
             )}
             <div className="lesson-details">
-              <h2>{lesson.title}</h2>
-              <p>Date: {new Date().toLocaleDateString()}</p>
-              <p>{lesson.content.substring(0, 100)}...</p>
+              <h2>{lesson.lessonTitle}</h2>
+              <p>Date: {new Date(lesson.createdAt).toLocaleDateString()}</p>
+              <p>{lesson.lessonDetails.substring(0, 100)}...</p>
             </div>
           </div>
         ))}
