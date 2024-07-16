@@ -32,29 +32,24 @@ const currentUser = userData?.me || {};
               <div>
                 <h1>{name.fullName}'s Chatroom</h1>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
-                {currentUser.role !== "Guardian" && (
-                  <div
-                    id="chatFormContainer"
-                    className="mb-3"
-                    style={{ border: "1px dotted #1a1a1a", padding: "10px" }}
-                  >
-                    <ChatForm />
-                  </div>
-                )}
-    
-                <div
-                  id="chatListContainer"
-                  className="mb-3"
-                  style={{ flexGrow: 1, border: "1px solid #1a1a1a", padding: "10px" }}
-                >
-                  {chatsLoading ? (
-                    <div>Loading...</div>
-                  ) : (
-                    <UserChat chats={chats} title="Current Chat(s)..." />
-                  )}
-                </div>
-              </div>
+              <div className="chat-container">
+        <div className="chat-messages">
+          {messages.map((message, index) => (
+            <div key={index} className="message">
+              {message}
+            </div>
+          ))}
+        </div>
+        <div className="chat-input">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+      </div>
             </div>
         )
     }  
