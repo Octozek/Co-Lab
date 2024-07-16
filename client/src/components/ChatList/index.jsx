@@ -18,15 +18,12 @@ const ChatList = ({
           <div key={chat._id} className="card mb-3">
             <h4 className="card-header bg-primary text-light p-2 m-0">
               {showName ? (
-                <Link
-                  className="text-light"
-                  to={`/profiles/${chat.chatAuthor}`}
-                >
-                  {chat.chatAuthor} <br />
-                  <span style={{ fontSize: '1rem' }}>
-                    started this chat on {chat.createdAt}
-                  </span>
-                </Link>
+                <>
+                {chat.chatAuthor} <br />
+                <span style={{ fontSize: '1rem' }}>
+                  started this chat on {chat.createdAt}
+                </span>
+              </>
               ) : (
                 <>
                   <span style={{ fontSize: '1rem' }}>

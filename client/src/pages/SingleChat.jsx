@@ -1,6 +1,8 @@
 // Import the `useParams()` hook
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import './Chat.css';
+
 // import Auth from "../utils/auth";
 
 import CommentList from "../components/CommentList";
@@ -39,8 +41,9 @@ const SingleChat = () => {
         <blockquote
           className="p-4"
           style={{
-            fontSize: "1.5rem",
+            fontSize: "2rem",
             fontStyle: "italic",
+            fontWeight: "bold",
             border: "2px dotted #1a1a1a",
             lineHeight: "1.5",
           }}
