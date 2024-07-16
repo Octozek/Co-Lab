@@ -17,7 +17,7 @@ export const QUERY_USER = gql`
 `;
 
 export const QUERY_NAME = gql`
-  query getName ($_id: ID!) {
+  query getName($_id: ID!) {
     getName(_id: $_id) {
       _id
       fullName

@@ -7,9 +7,8 @@ const resolvers = {
       return User.find().select('-__v -password');
     },
     
-    user: async (parent, { email }) => {
-      return User.findOne({ email });
-
+    user: async (parent, { fullName }) => {
+      return User.findOne({ fullName }).select('-__v -password');
     },
     me: async (parent, args, context) => {
       if (context.user) {
@@ -18,13 +17,6 @@ const resolvers = {
         return userData;
       }
       throw new AuthenticationError('Not logged in');
-    },
-    getChats: async (parent, { fullName }) => {
-      const params = fullName ? { fullName } : {};
-      return Chat.find(params).sort({ createdAt: -1 });
-    },
-    getSingleChat: async (parent, { chatId }) => {
-      return Chat.findOne({ _id: chatId });
     },
     getChats: async (parent, { fullName }) => {
       const params = fullName ? { fullName } : {};
@@ -62,7 +54,7 @@ const resolvers = {
       return { token, user };
     },
     addChat: async (parent, { chatText }, context) => {
-      console.log(context.user.fullName)
+      // console.log(context.user.fullName)
         if (context.user) {
           const chat = await Chat.create({
             chatText,
