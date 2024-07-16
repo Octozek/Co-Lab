@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import Auth from '../../utils/auth';
+import { Link } from "react-router-dom";
+import Auth from "../../utils/auth";
 
 const Header = () => {
   const logout = (event) => {
@@ -12,25 +12,25 @@ const Header = () => {
       <div className="profilePic">
         <img src="https://via.placeholder.com/150" alt="Group Logo" />
       </div>
-      <h1 className="groupTitle">Group Title</h1>
+      <h1 className="groupTitle">Co-Lab</h1>
       <div className="rightsideHeader">
-        <div className='homeAndsettings'>
-        <div className="home-icon">
-          <Link to="/Home">
-          <img src='./imgs/Home.png' alt='home' />
-          </Link>
-        </div>
-        <div className="settings-icon">
-          <Link to="/settings">
-            <img src='./imgs/settings.png' alt='settings' />
-          </Link>
-        </div>
-        </div>
         <div className="authButtons">
           {Auth.loggedIn() ? (
-            <button className="btn btn-lg btn-light m-2" onClick={logout}>
-              Logout
-            </button>
+            <div className="homeAndsettings">
+              <div className="home-icon">
+                <Link to="/">
+                  <img src="./imgs/Home.png" alt="home" />
+                </Link>
+              </div>
+              <div className="settings-icon">
+                <Link to="/settings">
+                  <img src="./imgs/settings.png" alt="settings" />
+                </Link>
+              </div>
+              <button className="btn btn-lg btn-light m-2" onClick={logout}>
+                Logout
+              </button>
+            </div>
           ) : (
             <>
               <Link className="btn btn-lg btn-info m-2" to="/login">
@@ -45,8 +45,6 @@ const Header = () => {
       </div>
     </header>
   );
-}
+};
 
 export default Header;
-
-

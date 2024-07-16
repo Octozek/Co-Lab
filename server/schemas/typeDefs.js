@@ -57,7 +57,7 @@ const typeDefs = gql`
     getName(_id: ID!): User
     getLeaders: [Leaders]
   }
-
+ 
   type Mutation {
     addUser(fullName: String!, email: String!, password: String!, role: String!): Auth
     updateUser(fullName: String, email: String, password: String): User
