@@ -34,6 +34,15 @@ const typeDefs = gql`
     comments: [Comment]!
   }
 
+  type Leaders{
+  _id: ID
+  leaderName: String
+  leaderBio: String
+  leaderPhone: String
+  leaderEmail: String
+  leaderImage: String
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -46,6 +55,7 @@ const typeDefs = gql`
     getSingleChat(chatId: ID!): Chat
     me: User
     getName(_id: ID!): User
+    getLeaders: [Leaders]
   }
 
   type Mutation {
@@ -54,6 +64,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
+    addLeader(leaderName: String!, leaderBio: String!, leaderPhone: String!, leaderEmail: String!, leaderImage: String!): Leaders
+    removeLeader(_id: ID!): Leaders
   }
 `;
 

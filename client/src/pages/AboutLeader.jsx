@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "./PastEvents.css";
+import { useQuery } from "@apollo/client";
+import { QUERY_LEADERS } from "../utils/queries";
 
 const AboutLeaders = () => {
   // State to control the visibility of the modal
   const [showModal, setShowModal] = useState(false);
+
 
   // State to manage form data for adding a new leader
   const [formData, setFormData] = useState({
@@ -34,6 +37,8 @@ const AboutLeaders = () => {
     if (
       !formData.fullName ||
       !formData.bio ||
+      !formData.phone ||
+      !formData.email ||
       formData.image.length === 0 ||
       formData.image.length > 1
     ) {
@@ -120,6 +125,7 @@ const AboutLeaders = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="form-group">
@@ -129,6 +135,7 @@ const AboutLeaders = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="form-group">
@@ -152,5 +159,5 @@ const AboutLeaders = () => {
   );
 };
 
-// Export the AboutLeaders component as the default export
+
 export default AboutLeaders;

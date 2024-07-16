@@ -1,4 +1,5 @@
 const { User, Chat, Lesson } = require('../models');
+const { remove } = require('../models/User');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -27,6 +28,9 @@ const resolvers = {
     },
     getName: async (parent, { _id }) => {
       return User.findOne({ _id });
+    },
+    getLeaders: async () => {
+      return Leaders.find().select('-__v');
     }
   },
   
@@ -87,6 +91,12 @@ const resolvers = {
           );
         }
         throw AuthenticationError;
+      },
+      addLeader: async (parent, { leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage }) => {
+        return Leaders.create({ leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage });
+      },
+      removeLeader: async (parent, { _id }) => {
+        return Leaders.findOneAndDelete({ _id });
       },
   },
 };

@@ -54,3 +54,16 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+export const ADD_LEADER = gql`
+  mutation addLeader($leaderName: String!, $leaderBio: String!, $leaderPhone: String!, $leaderEmail: String!, $leaderImage: String!) {
+    addLeader(leaderName: $leaderName, leaderBio: $leaderBio, leaderPhone: $leaderPhone, leaderEmail: $leaderEmail, leaderImage: $leaderImage) {
+      _id
+      leaderName
+      leaderBio
+      leaderPhone
+      leaderEmail
+      leaderImage
+    }
+  }
+`;
