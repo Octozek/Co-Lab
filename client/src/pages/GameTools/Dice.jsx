@@ -20,7 +20,7 @@ const RollDice = () => {
       <div style={{ display: 'flex', justifyContent: 'center', gap: '30px' }}>
         <motion.img
           key={key + 'dice1'} // Unique key for each dice
-          src={`./imgs/die${diceNumbers[0]}.png`}
+          src={`../imgs/die${diceNumbers[0]}.png`}
           alt={`Die 1 rolled a ${diceNumbers[0]}`}
           animate={{ rotate: [0, 360] }}
           transition={{ duration: 1 }}
@@ -28,7 +28,7 @@ const RollDice = () => {
         />
         <motion.img
           key={key + 'dice2'} // Unique key for each dice
-          src={`./imgs/die${diceNumbers[1]}.png`}
+          src={`../imgs/die${diceNumbers[1]}.png`}
           alt={`Die 2 rolled a ${diceNumbers[1]}`}
           animate={{ rotate: [360, 0] }}
           transition={{ duration: 1 }}
