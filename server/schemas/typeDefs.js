@@ -45,6 +45,7 @@ const typeDefs = gql`
     getChats(fullName: String): [Chat]
     getSingleChat(chatId: ID!): Chat
     me: User
+    getName(_id: ID!): User
   }
 
   type Mutation {
