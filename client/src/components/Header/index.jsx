@@ -8,40 +8,38 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <Link to="/">Home</Link>
-      <br />
+    <header className="header">
       <div className="profilePic">
-      <img src="https://via.placeholder.com/150" alt="Group Logo" />
+        <img src="https://via.placeholder.com/150" alt="Group Logo" />
       </div>
-      <br />
-      <div>
+      <h1 className="groupTitle">Group Title</h1>
+      <div className="rightsideHeader">
+      <div className="settings-icon">
+        <Link to="/settings">
+          <img src='./imgs/settings.png' alt='settings' />
+        </Link>
+      </div>
+      <div className="authButtons">
         {Auth.loggedIn() ? (
-          <>
-            <button className="btn btn-lg btn-light m-2" onClick={logout}>
-              Logout
-            </button>
-          </>
+          <button className="btn btn-lg btn-light m-2" onClick={logout}>
+            Logout
+          </button>
         ) : (
           <>
             <Link className="btn btn-lg btn-info m-2" to="/login">
               Login
             </Link>
-            <br />
             <Link className="btn btn-lg btn-light m-2" to="/signup">
               Signup
             </Link>
           </>
         )}
-      </div>
-      <h1>Group Title</h1>
-      <div className="settings-icon">
-      <Link to="/settings">
-        <img src='./imgs/settings.png' alt='settings' />
-      </Link>
+        </div>
       </div>
     </header>
   );
 }
 
 export default Header;
+
+
