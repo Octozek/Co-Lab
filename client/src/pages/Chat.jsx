@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 // import Auth from '../utils/auth';
 import ChatList from "../components/ChatList";
 import ChatForm from "../components/ChatForm";
+import './Chat.css';
 
 import { QUERY_CHATS, QUERY_USERS, QUERY_ME } from "../utils/queries";
 
@@ -23,9 +24,8 @@ const Chat = () => {
   console.log("users", users);
 
   return (
-    <main>
-      <div className="flex-row justify-center">
-        <div id="userListContainer" className="col-12 col-md-6 mb-3">
+    <main style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+  <div id="userListContainer" className="mb-3" style={{ width: '20%', border: "1px solid #1a1a1a", padding: '10px' }}>
           <h3>Chat Members</h3>
           {usersLoading ? (
             <p>Loading users...</p>
@@ -37,25 +37,26 @@ const Chat = () => {
             </ul>
           )}
         </div>
-        {currentUser.role !== "Guardian" && (
-          <div
-            id="chatFormContainer"
-            className="col-12 col-md-6 mb-3"
-            style={{ border: "1px dotted #1a1a1a" }}
-          >
-            <ChatForm />
-          </div>
-        )}
-
-        <div id="chatListContainer" className="col-12 col-md-8 mb-3">
-          {chatsLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ChatList chats={chats} title="Current Chat(s)..." />
-          )}
-        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
+    {currentUser.role !== "Guardian" && (
+      <div
+        id="chatFormContainer"
+        className="mb-3"
+        style={{ border: "1px dotted #1a1a1a", padding: '10px' }}
+      >
+        <ChatForm />
       </div>
-    </main>
+    )}
+
+    <div id="chatListContainer" className="mb-3" style={{ flexGrow: 1, border: "1px solid #1a1a1a", padding: '10px' }}>
+      {chatsLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ChatList chats={chats} title="Current Chat(s)..." />
+      )}
+    </div>
+  </div>
+</main>
   );
 };
 
