@@ -15,7 +15,7 @@ export default function GameButtons() {
     },
     {
       title: "Scoreboard",
-      image: "https://via.placeholder.com/150",
+      image: "./imgs/scoreboard.png",
       description: "Need a scoreboard? Click here to start one!",
       path: "/games/scoreboard",
     },
