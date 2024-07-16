@@ -44,7 +44,6 @@ const SettingsPage = () => {
                 <button>My Groups</button>
                 <button>Themes</button>
                 <button>Upgrade Plans</button>
-                <button>Logout</button>
             </div>
             <br />
                 <form>
