@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import './ComingEvents.css';
+import './ComingEvents.css';
 
 const ComingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -179,19 +179,25 @@ const ComingEvents = () => {
             className={`event ${deleting ? 'wiggle' : ''}`}
             onClick={() => handleEventClick(event._id)}
           >
-            <h2>{event.name}</h2>
-            <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-            <p>Price: {event.price}</p>
-            {event.image && (
-              <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
-            )}
-            {event.link && (
-              <p>
-                <a href={event.link} target="_blank" rel="noopener noreferrer">
-                  More Info
-                </a>
-              </p>
-            )}
+            <div className='event-image'>
+              {event.image && (
+                <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
+              )}
+            </div>
+            <div className='event-details'>
+              <div className='event-text'>
+                <h2>{event.name}</h2>
+                <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                <p>Price: {event.price}</p>
+              </div>
+              {event.link && (
+                <p>
+                  <a href={event.link} target="_blank" rel="noopener noreferrer">
+                    More Info
+                  </a>
+                </p>
+              )}
+            </div>
           </div>
         ))}
       </div>
