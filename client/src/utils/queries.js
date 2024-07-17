@@ -74,3 +74,16 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_LEADERS = gql`
+  query getLeaders {
+    getLeaders {
+      _id
+      leaderName
+      leaderBio
+      leaderPhone
+      leaderEmail
+      leaderImage
+    }
+  }
+`;
