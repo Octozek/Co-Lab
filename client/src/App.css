@@ -14,7 +14,7 @@
 
 a {
   font-weight: 500;
-  color: #fcefe6;
+  color: #1e1b14;
   text-decoration: inherit;
 }
 a:hover {
@@ -95,14 +95,21 @@ header {
 }
 
 .rightsideHeader {
+  display: block;
   margin-right: 40px;
+  margin-top: 10px;
 }
 
+a {
+  color: #1e1b14;
+
+}
 .profilePic img {
   width: 80px; 
   height: 80px; 
   float: left;
-  margin: 5px 40px;
+  margin: 5px;
+  margin-left: 80px;
   border-radius: 50%;
 }
 
@@ -112,9 +119,18 @@ header {
   font-size: 4rem; 
 }
 
-.settings-icon img {
+.homeAndsettings {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -30px;
+}
+
+.settings-icon img,
+.home-icon img {
   width: 40px;
   height: 40px;
+  margin-right: 15px;
+  cursor: pointer;
 }
 
 /* Home Styles */
@@ -186,14 +202,14 @@ h3 {
   gap: 20px;
 }
 
-.event {
+/* .event {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
   width: 300px;
   position: relative;
   overflow: hidden;
-}
+} */
 
 .event img {
   width: 100%;
@@ -287,6 +303,7 @@ h3 {
   color: #1e1b14;
   font-weight: 600;
   margin:10px;
+  cursor: pointer;
 }
 
 .form-group label {
@@ -312,6 +329,7 @@ h3 {
   header .auth-buttons {
     margin-left: 0; 
     margin-top: 10px; 
+    margin-right: 10px;
   }
 }
 

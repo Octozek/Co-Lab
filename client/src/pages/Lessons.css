@@ -29,7 +29,7 @@
 
 .add-lesson-btn:hover{
   background-color: #fcefe6;
-  color: #d2f189;
+  color: #1e1b14;
   border: 3px solid #d2f189;
   cursor: pointer;
 }
@@ -111,7 +111,7 @@
   width: 100%;
   border: 3px solid #d2f189;
   border-radius: 20px;
-  background-color: #fcefe6;
+  background-color: transparent;
 }
 
 .record-btn {
@@ -148,6 +148,7 @@
 
 .audio-controls button {
   margin-bottom: 10px;
+  cursor: pointer
 }
 
 .lessons-list {
