@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_LEADERS } from "../utils/queries";
 import { ADD_LEADER, REMOVE_LEADER } from "../utils/mutations";
 import AddLeaderForm from "../components/AddLeaders/addLeaderForm";
 import ShowLeaders from "../components/AddLeaders/showLeaders";
+import { QUERY_ME, QUERY_LEADERS } from "../utils/queries";
 import './AboutLeaders.css';
 
 const AboutLeaders = () => {
@@ -12,6 +12,8 @@ const AboutLeaders = () => {
   const [selectedLeader, setSelectedLeader] = useState(null);
   const [showLeaderDetails, setShowLeaderDetails] = useState(false);
   const [notification, setNotification] = useState(null);
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
 
   const { loading, data, refetch } = useQuery(QUERY_LEADERS);
   const [addLeader] = useMutation(ADD_LEADER, {
@@ -67,12 +69,18 @@ const AboutLeaders = () => {
   return (
     <div className="leaders">
       <h2>Leaders</h2>
+      <div>
+      {currentUser.role === 'Leader' && (
+        <>
       <button className="add-leader-btn" onClick={() => setShowModal(true)}>
         Add Leader
       </button>
       <button className="delete-leader-btn" onClick={handleDeleteButtonClick}>
         Delete Leader
       </button>
+      </>
+      )}
+    </div>
       <ShowLeaders leaders={leaders} onLeaderClick={handleLeaderClick} />
 
       {showModal && <AddLeaderForm addLeader={handleAddLeader} />}
