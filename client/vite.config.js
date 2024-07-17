@@ -17,6 +17,10 @@ export default defineConfig({
         target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false
+      },
+      '/chatroom': {
+        target: 'http://localhost:3002',
+        ws: true        
       }
     }
   }
