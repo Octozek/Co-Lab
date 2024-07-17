@@ -1,4 +1,5 @@
-const { User, Chat, Lesson, Leaders } = require('../models');
+// server/schemas/resolvers.js
+const { User, Chat, Lesson, Event, Leaders } = require('../models');
 const { remove } = require('../models/User');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
@@ -8,13 +9,13 @@ const resolvers = {
       return User.find().select('-__v -password');
     },
     
-    user: async (parent, { fullName }) => {
-      return User.findOne({ fullName }).select('-__v -password');
+    user: async (parent, { email }) => {
+      return User.findOne({ email });
+
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id })
-          .select('-__v -password');
+        const userData = await User.findOne({ _id: context.user._id }).select('-__v -password');
         return userData;
       }
       throw new AuthenticationError('Not logged in');
@@ -26,14 +27,29 @@ const resolvers = {
     getSingleChat: async (parent, { chatId }) => {
       return Chat.findOne({ _id: chatId });
     },
-    getName: async (parent, { _id }) => {
-      return User.findOne({ _id });
+    getChats: async (parent, { fullName }) => {
+      const params = fullName ? { fullName } : {};
+      return Chat.find(params).sort({ createdAt: -1 });
+    },
+    getSingleChat: async (parent, { chatId }) => {
+      return Chat.findOne({ _id: chatId });
+    },
+    getEvents: async () => {
+      return Event.find().sort({ date: 1 });
+    },
+    getSingleEvent: async (parent, { eventId }) => {
+      return Event.findById(eventId);
+    },
+    getLessons: async () => {
+      return Lesson.find().sort({ createdAt: -1 });
     },
     getLeaders: async () => {
       return Leaders.find().select('-__v');
-    }
+    },
+    getSingleLesson: async (parent, { lessonId }) => {
+      return Lesson.findById(lessonId);
+    },
   },
-  
   Mutation: {
     addUser: async (parent, { fullName, email, password, role }) => {
       const user = await User.create({ fullName, email, password, role });
@@ -44,13 +60,13 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError('Incorrect credentials');
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError('Incorrect credentials');
       }
 
       const token = signToken(user);
@@ -58,7 +74,7 @@ const resolvers = {
       return { token, user };
     },
     addChat: async (parent, { chatText }, context) => {
-      // console.log(context.user.fullName)
+      console.log(context.user.fullName)
         if (context.user) {
           const chat = await Chat.create({
             chatText,
@@ -91,12 +107,6 @@ const resolvers = {
           );
         }
         throw AuthenticationError;
-      },
-      addLeader: async (parent, { leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage }) => {
-        return Leaders.create({ leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage });
-      },
-      removeLeader: async (parent, { _id }) => {
-        return Leaders.findOneAndDelete({ _id });
       },
   },
 };

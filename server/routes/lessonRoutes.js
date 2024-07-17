@@ -2,7 +2,7 @@
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
-const Lesson = require('../models/Lessons');
+const Lesson = require('../models/Lesson');
 
 const upload = multer({ storage: multer.memoryStorage() });
 

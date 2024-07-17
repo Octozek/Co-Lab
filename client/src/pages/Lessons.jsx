@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './Lessons.css';
+import { QUERY_ME } from '../utils/queries';
+
 
 const Lessons = () => {
   const [lessons, setLessons] = useState([]);
@@ -21,6 +23,8 @@ const Lessons = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
 
   useEffect(() => {
     fetchLessons();
