@@ -19,7 +19,7 @@ import Dice from './pages/GameTools/Dice.jsx'
 import Timer from './pages/GameTools/Timer.jsx'
 import Scoreboard from './pages/GameTools/Scoreboard.jsx'
 import SingleChat from './pages/SingleChat.jsx'
-import SingleUser from './pages/SingleUser.jsx'
+import ChatRoom from './components/UserChat'
 
 const router = createBrowserRouter([
   {
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/users/:userId',
-        element: <SingleUser />,
+        element: <ChatRoom />,
       }
     ]
   }

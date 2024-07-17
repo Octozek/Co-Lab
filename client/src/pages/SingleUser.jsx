@@ -7,11 +7,11 @@ import TextBar from '../components/TextBar'
 import { registerOnMessageCallback, send } from '../websocket'
 
 
-// const SingleUser = () => {  
-export class SingleUser extends React.Component {
-// const { userId } = useParams();
-// const { loading: nameLoading, data: nameData } = useQuery(QUERY_NAME, { variables: { _id: userId}});
-// const name = nameData?.getName || {};
+const SingleUser = () => {  
+
+const { userId } = useParams();
+const { loading: nameLoading, data: nameData } = useQuery(QUERY_NAME, { variables: { _id: userId}});
+const name = nameData?.getName || {};
 
 state = {
   messages: [],
