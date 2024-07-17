@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './Lessons.css';
-import { QUERY_ME } from '../utils/queries';
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from "../utils/queries";
 
 
 const Lessons = () => {
@@ -23,8 +24,10 @@ const Lessons = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const [deleting, setDeleting] = useState(false);
+
   const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
   const currentUser = userData?.me || {};
+
 
   useEffect(() => {
     fetchLessons();
@@ -189,127 +192,134 @@ const Lessons = () => {
   };
 
   return (
-    <div className="lessons">
-      <h1>Lessons</h1>
-      <button className="add-lesson-btn" onClick={() => setShowModal(true)}>
-        Add Lesson
-      </button>
-      <button className="delete-lesson-btn" onClick={handleDeleteButtonClick}>
-        Delete Lesson
-      </button>
-      {showModal && !currentLesson && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close-btn" onClick={closeModal}>
-              &times;
-            </span>
-            <div className="form-group">
-              <label>Lesson Title</label>
-              <input
-                type="text"
-                name="lessonTitle"
-                value={formData.lessonTitle}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Lesson Content</label>
-              <textarea
-                name="lessonDetails"
-                value={formData.lessonDetails}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Lesson Author</label>
-              <input
-                type="text"
-                name="lessonAuthor"
-                value={formData.lessonAuthor}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Lesson Image</label>
-              <input
-                type="file"
-                name="image"
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-            </div>
-            <button
-              className={`record-btn ${recording ? 'recording' : ''}`}
-              onClick={handleRecord}
-              style={{ backgroundColor: recording ? '#85c7e4' : '#d2f189' }}
-            >
-              {recording ? 'Stop Recording' : 'Record'}
+      <div className="lessons">
+        <h1>Lessons</h1>
+        <div>
+        {currentUser.role === 'Leader' && (
+          <>
+            <button className="add-lesson-btn" onClick={() => setShowModal(true)}>
+              Add Lesson
             </button>
-            <button className="submit-btn" onClick={handleAddLesson}>
-              Done
+            <button className="delete-lesson-btn" onClick={handleDeleteButtonClick}>
+              Delete Lesson
             </button>
-          </div>
-        </div>
-      )}
-      {showModal && currentLesson && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
+          </>
+        )}
+      </div>
+  
+        {showModal && !currentLesson && (
+          <div className="modal">
+            <div className="modal-content">
               <span className="close-btn" onClick={closeModal}>
                 &times;
               </span>
-              <h2 className="lesson-title">{currentLesson.lessonTitle}</h2>
-              <p className="lesson-date">{new Date(currentLesson.createdAt).toLocaleDateString()}</p>
-              </div>
-            <div className="modal-body">
-              <div className="lesson-text">
-                <p>{currentLesson.lessonDetails}</p>
-              </div>
-            </div>
-            {currentLesson.audio && (
-              <div className="audio-controls">
-                <button onClick={handlePlayPause}>
-                  {isPlaying ? 'Pause' : 'Play'}
-                </button>
+              <div className="form-group">
+                <label>Lesson Title</label>
                 <input
-                  type="range"
-                  value={audioProgress}
-                  onChange={handleAudioProgressChange}
-                  style={{ width: '100%' }}
+                  type="text"
+                  name="lessonTitle"
+                  value={formData.lessonTitle}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
-            )}
-          </div>
-        </div>
-      )}
-      <div className="lessons-list">
-        {lessons.map((lesson, index) => (
-          <div
-            key={index}
-            className={`lesson ${deleting ? 'wiggle' : ''}`}
-            onClick={() => handleCardClick(lesson)}
-          >
-            {lesson.image && (
-              <img
-                src={`data:image/jpeg;base64,${lesson.image}`}
-                alt="Lesson"
-                className="lesson-image"
-              />
-            )}
-            <div className="lesson-details">
-              <h2>{lesson.lessonTitle}</h2>
-              <p>Date: {new Date(lesson.createdAt).toLocaleDateString()}</p>
-              <p>{lesson.lessonDetails.substring(0, 100)}...</p>
+              <div className="form-group">
+                <label>Lesson Content</label>
+                <textarea
+                  name="lessonDetails"
+                  value={formData.lessonDetails}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Lesson Author</label>
+                <input
+                  type="text"
+                  name="lessonAuthor"
+                  value={formData.lessonAuthor}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Lesson Image</label>
+                <input
+                  type="file"
+                  name="image"
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+              </div>
+              <button
+                className={`record-btn ${recording ? 'recording' : ''}`}
+                onClick={handleRecord}
+                style={{ backgroundColor: recording ? '#85c7e4' : '#d2f189' }}
+              >
+                {recording ? 'Stop Recording' : 'Record'}
+              </button>
+              <button className="submit-btn" onClick={handleAddLesson}>
+                Done
+              </button>
             </div>
           </div>
-        ))}
+        )}
+        {showModal && currentLesson && (
+          <div className="modal">
+            <div className="modal-content">
+              <div className="modal-header">
+                <span className="close-btn" onClick={closeModal}>
+                  &times;
+                </span>
+                <h2 className="lesson-title">{currentLesson.lessonTitle}</h2>
+                <p className="lesson-date">{new Date(currentLesson.createdAt).toLocaleDateString()}</p>
+                </div>
+              <div className="modal-body">
+                <div className="lesson-text">
+                  <p>{currentLesson.lessonDetails}</p>
+                </div>
+              </div>
+              {currentLesson.audio && (
+                <div className="audio-controls">
+                  <button onClick={handlePlayPause}>
+                    {isPlaying ? 'Pause' : 'Play'}
+                  </button>
+                  <input
+                    type="range"
+                    value={audioProgress}
+                    onChange={handleAudioProgressChange}
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="lessons-list">
+          {lessons.map((lesson, index) => (
+            <div
+              key={index}
+              className={`lesson ${deleting ? 'wiggle' : ''}`}
+              onClick={() => handleCardClick(lesson)}
+            >
+              {lesson.image && (
+                <img
+                  src={`data:image/jpeg;base64,${lesson.image}`}
+                  alt="Lesson"
+                  className="lesson-image"
+                />
+              )}
+              <div className="lesson-details">
+                <h2>{lesson.lessonTitle}</h2>
+                <p>Date: {new Date(lesson.createdAt).toLocaleDateString()}</p>
+                <p>{lesson.lessonDetails.substring(0, 100)}...</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <audio ref={audioRef} />
       </div>
-      <audio ref={audioRef} />
-    </div>
-  );
+    );
 };
 
 export default Lessons;

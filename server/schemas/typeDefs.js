@@ -30,9 +30,10 @@ const typeDefs = gql`
     lessonTitle: String
     lessonDetails: String
     lessonAuthor: String
+    audio: String
+    image: String
     createdAt: String
-    comments: [Comment]!
-  }
+   }
 
   type Event {
     _id: ID
@@ -89,7 +90,7 @@ const typeDefs = gql`
     removeLeader(_id: ID!): Leaders
     addEvent(name: String!, date: String!, price: Float, image: String!, link: String): Event
     deleteEvent(eventId: ID!): Event
-    addLesson(lessonTitle: String!, lessonDetails: String!, lessonAuthor: String!): Lesson
+    addLesson(lessonTitle: String!, lessonDetails: String!, lessonAuthor: String!, audio: String, image: String): Lesson
     deleteLesson(lessonId: ID!): Lesson
     addPastEvent(title: String!, date: String!, images: [String]): PastEvent
     deletePastEvent(pastEventId: ID!): PastEvent
