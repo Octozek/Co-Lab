@@ -57,7 +57,6 @@ button {
   font-family: inherit;
   background-color: #85c7e4;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
 
 button:hover {
@@ -76,7 +75,6 @@ button:hover {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
-  transition: filter 300ms;
 }
 
 .logo:hover {
@@ -98,7 +96,7 @@ header {
   left: 0;
   width: 100%;
   background-color: #85c7e4;
-  padding: 10px 0;
+  padding: 10px -60px;
   display: flex;
   justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -107,26 +105,18 @@ header {
 
 .rightsideHeader {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: 40px;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
-.rightsideHeader button {
-  font-family: "Ubuntu", sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .profilePic img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   float: left;
   margin: 5px;
-  margin-left: 80px;
+  margin-left: 50px;
   border-radius: 50%;
 }
 
@@ -138,14 +128,10 @@ header {
 
 .homeAndsettings {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   height: 30%;
-}
-
-.aDivWithin {
-  display:flex;
-  justify-content: center;
+  margin-top: 15px;
 }
 
 .settings-icon img,
@@ -159,11 +145,28 @@ header {
 .loginAndSignUp a {
   display: flex;
   flex-direction: column;
-  color:#1e1b14;
-  margin: 5px;
-  border: 2px solid #d2f189;
-  border-radius: 5px;
   padding: 5px;
+  color:#1e1b14;
+}
+
+.login-btn {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 5px 20px;
+  background-color: #d2f189;
+  border-radius: 20px;
+  padding: 0 15px;
+}
+
+.signup-btn {
+  margin: 5px 20px;
+  border: 2px solid #fcefe6;
+  border-radius: 25px;
+}
+
+.logout-btn {
+  width: 40px;
+
 }
 
 /* Home Styles */
@@ -345,28 +348,25 @@ h3 {
   header {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    padding: 20px;
+    flex-direction: column;
+    /* padding: 20px; */
   }
 
-  header img {
-    margin: 0 0 10px 0;
-  }
-
-  header .nav-links {
-    margin: 10px 0;
+  .profilePic {
+    display: none;
   }
 
   .rightsideHeader {
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
 
   header .auth-buttons {
     font-family: "Ubuntu", sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 20px;
   }
 }
 
@@ -396,16 +396,17 @@ h3 {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .rightsideHeader {
-    margin-right: 20px;
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justi
   }
 
   .profilePic img {
@@ -417,4 +418,4 @@ h3 {
   .groupTitle {
     font-size: 1.5rem;
   }
-}
+} */

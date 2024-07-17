@@ -8,6 +8,18 @@
 
 }
 
+.logo-img {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-img img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .card-body form{ 
     display: flex;
     flex-direction: column;
@@ -72,8 +84,6 @@ button {
 button:hover {
     font-size: 1.3rem;
     font-weight: 800;
-    margin-top: 50px;
-    padding: 5px 20px;
     color: #85c7e4;
     border: 2px solid #85c7e4;
     cursor: pointer;

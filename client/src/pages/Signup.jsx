@@ -6,13 +6,14 @@ import { ADD_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
 import './loginAndSignup.css'
+import logoImg from '../../public/imgs/Logo.png'
 
 const Signup = () => {
   const [formState, setFormState] = useState({
     fullName: "",
     email: "",
     password: "",
-  //  confirmPassword: "",
+    //  confirmPassword: "",
     role: "",
   });
 
@@ -30,7 +31,7 @@ const Signup = () => {
     });
   };
 
-  const handleConfirmChange = (event) => {  
+  const handleConfirmChange = (event) => {
     const { value } = event.target;
     setConfirm(value);
   }
@@ -46,7 +47,7 @@ const Signup = () => {
     }
 
     setErrorMessage('');
-    
+
     try {
       const { data } = await addUser({
         variables: { ...formState },
@@ -62,6 +63,9 @@ const Signup = () => {
     <main className="flex-row justify-center mb-4">
       <div className="col-12 col-lg-10">
         <div className="card">
+          <div className='logo-img'>
+            <img src={logoImg} alt='Logo' />
+          </div>
           <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
           <div className="card-body">
             {data ? (
@@ -145,15 +149,15 @@ const Signup = () => {
                 </button>
               </form>
             )}
-{errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
             {error && (
               <div style={{ color: 'red' }} className="my-3 p-3 bg-danger text-white">
                 {error.message}
-                
+
               </div>
             )}
           </div>
-          
+
         </div>
       </div>
     </main>
