@@ -43,6 +43,15 @@ const typeDefs = gql`
     link: String
   }
 
+  type Leaders{
+  _id: ID
+  leaderName: String
+  leaderBio: String
+  leaderPhone: String
+  leaderEmail: String
+  leaderImage: String
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -59,6 +68,7 @@ const typeDefs = gql`
     getLessons: [Lesson]
     getSingleLesson(lessonId: ID!): Lesson
     getName(_id: ID!): User
+    getLeaders: [Leaders]
   }
 
   type Mutation {
@@ -66,6 +76,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
+    addLeader(leaderName: String!, leaderBio: String!, leaderPhone: String!, leaderEmail: String!, leaderImage: String): Leaders
+    removeLeader(_id: ID!): Leaders
     addEvent(name: String!, date: String!, price: Float, image: String!, link: String): Event
     deleteEvent(eventId: ID!): Event
     addLesson(lessonTitle: String!, lessonDetails: String!, lessonAuthor: String!): Lesson

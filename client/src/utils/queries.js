@@ -75,6 +75,7 @@ export const QUERY_ME = gql`
   }
 `;
 
+
 export const QUERY_EVENTS = gql`
   query getEvents {
     getEvents {
@@ -84,6 +85,19 @@ export const QUERY_EVENTS = gql`
       price
       image
       link
+    }
+  }
+`;
+
+export const QUERY_LEADERS = gql`
+  query getLeaders {
+    getLeaders {
+      _id
+      leaderName
+      leaderBio
+      leaderPhone
+      leaderEmail
+      leaderImage
     }
   }
 `;
