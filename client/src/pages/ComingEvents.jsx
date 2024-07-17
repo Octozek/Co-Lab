@@ -1,9 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-// import './ComingEvents.css';
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+import { gql } from 'graphql-tag';
+import Compressor from 'compressorjs';
+import './PastEvents.css';
+
+// GraphQL Queries and Mutations
+const GET_EVENTS = gql`
+  query GetEvents {
+    getEvents {
+      _id
+      name
+      date
+      price
+      image
+      link
+    }
+  }
+`;
+
+const ADD_EVENT = gql`
+  mutation AddEvent($name: String!, $date: String!, $price: Float, $image: String!, $link: String) {
+    addEvent(name: $name, date: $date, price: $price, image: $image, link: $link) {
+      _id
+      name
+      date
+      price
+      image
+      link
+    }
+  }
+`;
+
+const DELETE_EVENT = gql`
+  mutation DeleteEvent($eventId: ID!) {
+    deleteEvent(eventId: $eventId) {
+      _id
+    }
+  }
+`;
 
 const ComingEvents = () => {
-  const [events, setEvents] = useState([]);
+  const { loading, error, data } = useQuery(GET_EVENTS);
+  const [addEvent] = useMutation(ADD_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
+  });
+  const [deleteEvent] = useMutation(DELETE_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
+  });
+
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -14,58 +58,36 @@ const ComingEvents = () => {
   });
   const [deleting, setDeleting] = useState(false);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get('/api/events');
-        setEvents(response.data);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [name]: name === 'price' ? parseFloat(value) : value,
+    });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+    const file = e.target.files[0];
+    new Compressor(file, {
+      quality: 0.6,
+      success(result) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData({ ...formData, image: reader.result.split(',')[1] });
+        };
+        reader.readAsDataURL(result);
+      },
+    });
   };
 
   const handleAddEvent = async () => {
-    // Validate required fields
-    if (!formData.name) {
-      alert('Please add a name.');
-      return;
-    }
-    if (!formData.date) {
-      alert('Please add a date.');
-      return;
-    }
-    if (!formData.image) {
-      alert('Please add an image.');
+    if (!formData.name || !formData.date || !formData.image) {
+      alert('Please fill in all required fields.');
       return;
     }
 
     try {
-      const data = new FormData();
-      data.append('name', formData.name);
-      data.append('date', formData.date);
-      data.append('price', formData.price);
-      data.append('link', formData.link);
-      data.append('image', formData.image);
-
-      const response = await axios.post('/api/events', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      setEvents([...events, response.data]);
+      await addEvent({ variables: formData });
       setShowModal(false);
       setFormData({
         name: '',
@@ -80,10 +102,9 @@ const ComingEvents = () => {
   };
 
   const handleDeleteEvent = async (eventId) => {
-    if (window.confirm(`Are you sure you want to delete the event?`)) {
+    if (window.confirm('Are you sure you want to delete the event?')) {
       try {
-        await axios.delete(`/api/events/${eventId}`);
-        setEvents(events.filter(event => event._id !== eventId));
+        await deleteEvent({ variables: { eventId } });
       } catch (error) {
         console.error('Error deleting event:', error);
       }
@@ -102,6 +123,9 @@ const ComingEvents = () => {
       handleDeleteEvent(eventId);
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="coming-events">
@@ -145,8 +169,10 @@ const ComingEvents = () => {
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
+                step="0.01"
               />
             </div>
+
             <div className="form-group">
               <label>Event Image</label>
               <input
@@ -173,7 +199,7 @@ const ComingEvents = () => {
         </div>
       )}
       <div className="events-list">
-        {Array.isArray(events) && events.map((event) => (
+        {Array.isArray(data.getEvents) && data.getEvents.map((event) => (
           <div
             key={event._id}
             className={`event ${deleting ? 'wiggle' : ''}`}

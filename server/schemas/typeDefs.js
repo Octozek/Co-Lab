@@ -34,6 +34,15 @@ const typeDefs = gql`
     comments: [Comment]!
   }
 
+  type Event {
+    _id: ID
+    name: String
+    date: String
+    price: Float
+    image: String
+    link: String
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -41,18 +50,25 @@ const typeDefs = gql`
 
   type Query {
     getUsers: [User]
-    user(fullName: String!): User
+    user(email: String!): User
     getChats(fullName: String): [Chat]
     getSingleChat(chatId: ID!): Chat
     me: User
+    getEvents: [Event]
+    getSingleEvent(eventId: ID!): Event
+    getLessons: [Lesson]
+    getSingleLesson(lessonId: ID!): Lesson
   }
 
   type Mutation {
     addUser(fullName: String!, email: String!, password: String!, role: String!): Auth
-    updateUser(fullName: String, email: String, password: String): User
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
+    addEvent(name: String!, date: String!, price: Float, image: String!, link: String): Event
+    deleteEvent(eventId: ID!): Event
+    addLesson(lessonTitle: String!, lessonDetails: String!, lessonAuthor: String!): Lesson
+    deleteLesson(lessonId: ID!): Lesson
   }
 `;
 
