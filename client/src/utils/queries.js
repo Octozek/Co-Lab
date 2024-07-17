@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
   query user($email: String!) {
@@ -70,11 +70,10 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
-      role  
+      role
     }
   }
 `;
-
 
 export const QUERY_EVENTS = gql`
   query getEvents {
@@ -120,7 +119,7 @@ export const QUERY_LESSONS = gql`
       lessonTitle
       lessonDetails
       lessonAuthor
-      createdAt
+    
     }
   }
 `;
@@ -146,12 +145,6 @@ export const QUERY_SINGLE_LESSON = gql`
       lessonDetails
       lessonAuthor
       createdAt
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
     }
   }
 `;

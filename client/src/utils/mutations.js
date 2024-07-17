@@ -90,11 +90,14 @@ mutation deleteEvent($eventId: ID!) {
 `;
 
 export const ADD_LESSON = gql`
-mutation addLesson($lessonTitle: String!, $lessonDetails: String!) {
-  addLesson(lessonTitle: $lessonTitle, lessonDetails: $lessonDetails) {
+mutation addLesson($lessonTitle: String!, $lessonDetails: String!, $lessonAuthor: String!) {
+  addLesson(lessonTitle: $lessonTitle, lessonDetails: $lessonDetails, lessonAuthor: $lessonAuthor) {
     _id
     lessonTitle
     lessonDetails
+    lessonAuthor
+    audio
+    image
   }
 }
 `;

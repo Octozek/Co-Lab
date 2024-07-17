@@ -114,22 +114,8 @@ const resolvers = {
       addEvent: async (parent, { name, date, price, image, link }) => {
         return Event.create({ name, date, price, image, link });
       },
-      addLesson: async (parent, { lessonTitle, lessonDetails }, context) => {
-        if (context.user) {
-          const lesson = await Lesson.create({
-            lessonTitle,
-            lessonDetails,
-            lessonAuthor: context.user.fullName,
-          });
-  
-          await User.findOneAndUpdate(
-            { _id: context.user._id },
-            { $addToSet: { lessons: lesson._id } }
-          );
-  
-          return lesson;
-        }
-        throw AuthenticationError;
+      addLesson: async (parent, { lessonTitle, lessonDetails, lessonAuthor }) => {
+        return Lesson.create({ lessonTitle, lessonDetails, lessonAuthor });
       },
       addLeader: async (parent, { leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage }) => {
         return Leaders.create({ leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage });
