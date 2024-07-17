@@ -20,7 +20,8 @@
     "concurrently": "^6.2.0",
     "framer-motion": "^11.3.2",
     "graphql": "^16.9.0",
-    "mongodb": "^6.8.0"
+    "mongodb": "^6.8.0",
+    "websocket": "^1.0.35"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

@@ -14,7 +14,7 @@
 
 a {
   font-weight: 500;
-  color: #fcefe6;
+  color: #1e1b14;
   text-decoration: inherit;
 }
 a:hover {
@@ -31,12 +31,13 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+font-size: 3.2em;
   line-height: 1.1;
 }
 
 button {
   border-radius: 8px;
+  color:#1e1b14;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -82,31 +83,54 @@ button:focus-visible {
 header {
   position: fixed;
   top:0;
+  left:0;
   width: 100%;
   background-color: #85c7e4; 
   padding: 10px 0;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   z-index: 1000;
 }
 
-header img {
-  width: 40px; 
-  height: auto; 
-  float: left;
-  margin: 5px 20px;
+.rightsideHeader {
+  display: block;
+  margin-right: 40px;
+  margin-top: 10px;
 }
 
-header h1 {
+a {
+  color: #1e1b14;
+
+}
+.profilePic img {
+  width: 80px; 
+  height: 80px; 
+  float: left;
+  margin: 5px;
+  margin-left: 80px;
+  border-radius: 50%;
+}
+
+.groupTitle {
   color: #1e1b14;
   text-align: center;
   font-size: 4rem; 
-  margin: 0 275px; 
 }
 
-header .auth-buttons {
-  text-align: center;
-  margin-top: 20px;
+.homeAndsettings {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -30px;
+}
+
+.settings-icon img,
+.home-icon img {
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+  cursor: pointer;
 }
 
 /* Home Styles */
@@ -178,14 +202,14 @@ h3 {
   gap: 20px;
 }
 
-.event {
+/* .event {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
   width: 300px;
   position: relative;
   overflow: hidden;
-}
+} */
 
 .event img {
   width: 100%;
@@ -260,6 +284,32 @@ h3 {
   gap: 10px;
 }
 
+/* Settings Page*/
+
+.settings-content h1 {
+  margin-top: 80px;
+  color: #fcefe6;
+}
+
+.profilePicture img{
+  border-radius: 50%;
+}
+
+.sidebar {
+  margin: 20px 10px;
+}
+
+.sidebar button {
+  color: #1e1b14;
+  font-weight: 600;
+  margin:10px;
+  cursor: pointer;
+}
+
+.form-group label {
+  color: #fcefe6;
+}
+
 
 @media (max-width: 768px) {
   header {
@@ -279,6 +329,7 @@ h3 {
   header .auth-buttons {
     margin-left: 0; 
     margin-top: 10px; 
+    margin-right: 10px;
   }
 }
 

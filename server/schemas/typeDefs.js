@@ -58,6 +58,7 @@ const typeDefs = gql`
     getSingleEvent(eventId: ID!): Event
     getLessons: [Lesson]
     getSingleLesson(lessonId: ID!): Lesson
+    getName(_id: ID!): User
   }
 
   type Mutation {
