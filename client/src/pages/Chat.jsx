@@ -25,7 +25,7 @@ const Chat = () => {
   // console.log("users", users);
 
   return (
-    <main
+    <main className='main'
       style={{
         display: "flex",
         flexDirection: "row",

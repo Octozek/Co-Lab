@@ -22,7 +22,7 @@ const ChatList = ({
                 <>
                 {chat.chatAuthor} <br />
                 <span style={{ fontSize: '1rem' }}>
-                  started this chat on {chat.createdAt}
+                  Started this chat on {chat.createdAt}
                 </span>
               </>
               ) : (

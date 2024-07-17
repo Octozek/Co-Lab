@@ -1,5 +1,5 @@
 /* Global */
-main {
+.main {
     width: 100%;
     /* background-color: #fcefe6; */
     border-radius: 20px;
@@ -55,9 +55,19 @@ p, span, h4, h5 {
     color: #1e1b14;
 }
 
+.chatFormMain .form-input {
+    color:#1e1b14;
+    background-color: transparent;
+}
+
 /* Chat List */
 #chatListContainer {
+    margin-top: 10px;
     flex-grow: 1;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #85c7e4;
     padding: 10px;
 } 
+
+#chatListContainer li {
+    color: #fcefe6;
+}

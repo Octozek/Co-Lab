@@ -3,12 +3,14 @@
 }
 
 .add-event-btn, .delete-event-btn {
+  font-family: "Ubuntu", sans-serif;
   margin: 10px;
   padding: 10px 20px;
   font-size: 16px;
 }
 
 .delete-event-btn {
+  font-family: "Ubuntu", sans-serif;
   background-color: #ed9569;
   color: #fcefec;
 }
@@ -146,6 +148,7 @@
 }
 
 .close-btn {
+  font-family: "Ubuntu", sans-serif;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -169,6 +172,7 @@
 }
 
 .submit-btn {
+  font-family: "Ubuntu", sans-serif;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
