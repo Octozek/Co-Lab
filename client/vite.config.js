@@ -20,8 +20,8 @@ export default defineConfig({
       },
       '/chatroom': {
         target: 'http://localhost:3002',
-        ws: true        
-      }
+        ws: true
+            }
     }
   }
 });
