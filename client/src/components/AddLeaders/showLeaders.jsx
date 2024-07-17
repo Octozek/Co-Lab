@@ -1,20 +1,23 @@
-const ShowLeaders = ({ leaders }) => {
+import React from "react";
+import './ShowLeaders.css';
+
+const ShowLeaders = ({ leaders, onLeaderClick }) => {
   return (
-    <div>
-      {leaders.map((leader, index) => (
-        <div key={index} className="leader-card">
-          <h3>{leader.fullName}</h3>
-          <p>{leader.bio}</p>
-          {leader.phone && <p>Phone: {leader.phone}</p>}
-          {leader.email && <p>Email: {leader.email}</p>}
-          {leader.image.map((imgSrc, i) => (
+    <div className="leaders-list">
+      {leaders.map((leader) => (
+        <div
+          key={leader._id}
+          className="leader-card"
+          onClick={() => onLeaderClick(leader)}
+        >
+          {leader.leaderImage && (
             <img
-              key={i}
-              src={imgSrc}
-              alt={`${leader.fullName} photo ${i + 1}`}
-              className="leader-photo"
+              src={leader.leaderImage}
+              alt={leader.leaderName}
+              className="leader-image-circle"
             />
-          ))}
+          )}
+          <div className="leader-name">{leader.leaderName}</div>
         </div>
       ))}
     </div>

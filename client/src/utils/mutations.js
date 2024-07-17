@@ -68,15 +68,84 @@ export const ADD_LEADER = gql`
   }
 `;
 
-export const GET_LEADERS = gql`
-  query {
-    leaders {
+export const DELETE_LEADER = gql`
+  mutation deleteLeader($leaderId: ID!) {
+    deleteLeader(leaderId: $leaderId) {
       _id
       leaderName
       leaderBio
       leaderPhone
       leaderEmail
       leaderImage
+    }
+  }
+`;
+
+export const REMOVE_LEADER = gql`
+  mutation removeLeader($leaderId: ID!) {
+    removeLeader(_id: $leaderId) {
+      _id
+    }
+  }
+`;
+
+export const ADD_EVENT = gql`
+  mutation addEvent($name: String!, $date: String!, $price: Float, $image: String!, $link: String) {
+    addEvent(name: $name, date: $date, price: $price, image: $image, link: $link) {
+      _id
+      name
+      date
+      price
+      image
+      link
+    }
+  }
+`;
+
+export const DELETE_EVENT = gql`
+  mutation deleteEvent($eventId: ID!) {
+    deleteEvent(eventId: $eventId) {
+      _id
+    }
+  }
+`;
+
+export const ADD_LESSON = gql`
+  mutation addLesson($lessonTitle: String!, $lessonDetails: String!, $lessonAuthor: String!, $audio: String, $image: String) {
+    addLesson(lessonTitle: $lessonTitle, lessonDetails: $lessonDetails, lessonAuthor: $lessonAuthor, audio: $audio, image: $image) {
+      _id
+      lessonTitle
+      lessonDetails
+      lessonAuthor
+      audio
+      image
+    }
+  }
+`;
+
+export const DELETE_LESSON = gql`
+  mutation deleteLesson($lessonId: ID!) {
+    deleteLesson(lessonId: $lessonId) {
+      _id
+    }
+  }
+`;
+
+export const ADD_PAST_EVENT = gql`
+  mutation addPastEvent($title: String!, $date: String!, $images: [String]) {
+    addPastEvent(title: $title, date: $date, images: $images) {
+      _id
+      title
+      date
+      images
+    }
+  }
+`;
+
+export const DELETE_PAST_EVENT = gql`
+  mutation deletePastEvent($pastEventId: ID!) {
+    deletePastEvent(pastEventId: $pastEventId) {
+      _id
     }
   }
 `;

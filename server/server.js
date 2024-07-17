@@ -25,6 +25,7 @@ const connections = new Set()
 const wsHandler = (ws) => {
   connections.add(ws)
   ws.on('message', (message) => {
+
     connections.forEach((conn) => conn.send(message))
   })
   ws.on('close', () => {
@@ -88,7 +89,7 @@ webSocketServer.on('request', (request) => {
 });
 
 wbServer.listen(3002, () => {
-  console.log('WebSocket server is listening on port 3001');
+  console.log('WebSocket server is listening on port 3002');
 });
 
 startApolloServer();

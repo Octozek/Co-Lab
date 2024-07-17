@@ -70,7 +70,20 @@ export const QUERY_ME = gql`
       _id
       fullName
       email
-      role  
+      role
+    }
+  }
+`;
+
+export const QUERY_EVENTS = gql`
+  query getEvents {
+    getEvents {
+      _id
+      name
+      date
+      price
+      image
+      link
     }
   }
 `;
@@ -84,6 +97,53 @@ export const QUERY_LEADERS = gql`
       leaderPhone
       leaderEmail
       leaderImage
+    }
+  }
+`;
+
+export const QUERY_PAST_EVENTS = gql`
+  query getPastEvents {
+    getPastEvents {
+      _id
+      title
+      date
+      images
+    }
+  }
+`;
+
+export const QUERY_LESSONS = gql`
+  query getLessons {
+    getLessons {
+      _id
+      lessonTitle
+      lessonDetails
+      lessonAuthor
+    }
+  }
+`;
+
+export const QUERY_SINGLE_EVENT = gql`
+  query getSingleEvent($eventId: ID!) {
+    getSingleEvent(eventId: $eventId) {
+      _id
+      name
+      date
+      price
+      image
+      link
+    }
+  }
+`;
+
+export const QUERY_SINGLE_LESSON = gql`
+  query getSingleLesson($lessonId: ID!) {
+    getSingleLesson(lessonId: $lessonId) {
+      _id
+      lessonTitle
+      lessonDetails
+      lessonAuthor
+      createdAt
     }
   }
 `;
