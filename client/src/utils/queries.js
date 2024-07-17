@@ -101,3 +101,57 @@ export const QUERY_LEADERS = gql`
     }
   }
 `;
+
+export const QUERY_PAST_EVENTS = gql`
+  query getPastEvents {
+    getPastEvents {
+      _id
+      title
+      date
+      images
+    }
+  }
+`;
+
+export const QUERY_LESSONS = gql`
+  query getLessons {
+    getLessons {
+      _id
+      lessonTitle
+      lessonDetails
+      lessonAuthor
+      createdAt
+    }
+  }
+`;
+
+export const QUERY_SINGLE_EVENT = gql`
+  query getSingleEvent($eventId: ID!) {
+    getSingleEvent(eventId: $eventId) {
+      _id
+      name
+      date
+      price
+      image
+      link
+    }
+  }
+`;
+
+export const QUERY_SINGLE_LESSON = gql`
+  query getSingleLesson($lessonId: ID!) {
+    getSingleLesson(lessonId: $lessonId) {
+      _id
+      lessonTitle
+      lessonDetails
+      lessonAuthor
+      createdAt
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+      }
+    }
+  }
+`;

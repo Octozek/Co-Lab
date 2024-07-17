@@ -4,50 +4,23 @@ import { useQuery, useMutation } from '@apollo/client';
 import { gql } from 'graphql-tag';
 import Compressor from 'compressorjs';
 import './ComingEvents.css';
+import { QUERY_ME, QUERY_EVENTS } from "../utils/queries";
+import { ADD_EVENT, DELETE_EVENT } from "../utils/mutations";
 
-// GraphQL Queries and Mutations
-const GET_EVENTS = gql`
-  query GetEvents {
-    getEvents {
-      _id
-      name
-      date
-      price
-      image
-      link
-    }
-  }
-`;
 
-const ADD_EVENT = gql`
-  mutation AddEvent($name: String!, $date: String!, $price: Float, $image: String!, $link: String) {
-    addEvent(name: $name, date: $date, price: $price, image: $image, link: $link) {
-      _id
-      name
-      date
-      price
-      image
-      link
-    }
-  }
-`;
-
-const DELETE_EVENT = gql`
-  mutation DeleteEvent($eventId: ID!) {
-    deleteEvent(eventId: $eventId) {
-      _id
-    }
-  }
-`;
 
 const ComingEvents = () => {
-  const { loading, error, data } = useQuery(GET_EVENTS);
+  const { loading, error, data } = useQuery(QUERY_EVENTS);
   const [addEvent] = useMutation(ADD_EVENT, {
-    refetchQueries: [{ query: GET_EVENTS }],
+    refetchQueries: [{ query: QUERY_EVENTS }],
   });
   const [deleteEvent] = useMutation(DELETE_EVENT, {
-    refetchQueries: [{ query: GET_EVENTS }],
+    refetchQueries: [{ query: QUERY_EVENTS }],
   });
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
+
+
 
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -132,12 +105,18 @@ if (error) return <p>Error: {error.message}</p>;
 return (
   <div className="coming-events">
     <h1>Coming Events</h1>
-    <button className="add-event-btn" onClick={() => setShowModal(true)}>
-      Add Event
-    </button>
-    <button className="delete-event-btn" onClick={handleDeleteButtonClick}>
-      Delete Event
-    </button>
+    <div>
+      {currentUser.role === 'Leader' && (
+        <>
+          <button className="add-event-btn" onClick={() => setShowModal(true)}>
+            Add Event
+          </button>
+          <button className="delete-event-btn" onClick={handleDeleteButtonClick}>
+            Delete Event
+          </button>
+        </>
+      )}
+    </div>
     {showModal && (
       <div className="modal">
         <div className="modal-content">
@@ -201,33 +180,34 @@ return (
       </div>
     )}
     <div className="events-list">
-      {Array.isArray(data.getEvents) && data.getEvents.map((event) => (
-        <div
-          key={event._id}
-          className={`event ${deleting ? 'wiggle' : ''}`}
-          onClick={() => handleEventClick(event._id)}
-        >
-          <div className='event-image'>
-            {event.image && (
-              <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
-            )}
-          </div>
-          <div className='event-details'>
-            <div className='event-text'>
-              <h2>{event.name}</h2>
-              <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-              <p>Price: {event.price}</p>
+      {Array.isArray(data.getEvents) &&
+        data.getEvents.map((event) => (
+          <div
+            key={event._id}
+            className={`event ${deleting ? 'wiggle' : ''}`}
+            onClick={() => handleEventClick(event._id)}
+          >
+            <div className="event-image">
+              {event.image && (
+                <img src={`data:image/png;base64,${event.image}`} alt={event.name} />
+              )}
             </div>
-            {event.link && (
-              <p>
-                <a href={event.link} target="_blank" rel="noopener noreferrer">
-                  More Info
-                </a>
-              </p>
-            )}
+            <div className="event-details">
+              <div className="event-text">
+                <h2>{event.name}</h2>
+                <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                <p>Price: {event.price}</p>
+              </div>
+              {event.link && (
+                <p>
+                  <a href={event.link} target="_blank" rel="noopener noreferrer">
+                    More Info
+                  </a>
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   </div>
 );

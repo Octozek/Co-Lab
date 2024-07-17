@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { send } from '../../websocket';
+import { QUERY_ME } from "../../utils/queries";
+import { useQuery } from "@apollo/client";
 
 
 function ChatRoom() {
@@ -18,6 +20,9 @@ function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [ws, setWs] = useState(null);
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
+
 
   useEffect(() => {
     // Create WebSocket connection.
@@ -31,7 +36,7 @@ function ChatRoom() {
 
     // Listen for messages
     socket.addEventListener('message', (event) => {
-      console.log("Got message back!", event)
+      // console.log("Got message back!", event)
       const newMessage = event.data;
       setMessages(prevMessages => [...prevMessages, newMessage]);
     });
@@ -58,6 +63,8 @@ function ChatRoom() {
           <p key={message.id}>{message}</p>
         ))}
       </div>
+      {currentUser.role !== "Guardian" && (
+
       <form onSubmit={sendMessage}>
         <input
           type="text"
@@ -66,6 +73,7 @@ function ChatRoom() {
         />
         <button type="submit">Send</button>
       </form>
+       )}
     </div>
   );
 }

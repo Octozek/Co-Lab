@@ -1,5 +1,5 @@
 // server/schemas/resolvers.js
-const { User, Chat, Lesson, Event, Leaders } = require('../models');
+const { User, Chat, Lesson, Event, Leaders, PastEvent } = require('../models');
 const { remove } = require('../models/User');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
@@ -27,13 +27,6 @@ const resolvers = {
     getSingleChat: async (parent, { chatId }) => {
       return Chat.findOne({ _id: chatId });
     },
-    getChats: async (parent, { fullName }) => {
-      const params = fullName ? { fullName } : {};
-      return Chat.find(params).sort({ createdAt: -1 });
-    },
-    getSingleChat: async (parent, { chatId }) => {
-      return Chat.findOne({ _id: chatId });
-    },
     getEvents: async () => {
       return Event.find().sort({ date: 1 });
     },
@@ -49,6 +42,16 @@ const resolvers = {
     getSingleLesson: async (parent, { lessonId }) => {
       return Lesson.findById(lessonId);
     },
+    getPastEvents: async () => {
+      return PastEvent.find().sort({ date: -1 });
+    },
+    getName: async (parent, { _id }) => {
+      return User.findOne({ _id });
+    },
+    getLeaders: async () => {
+      return Leaders.find().select('-__v');
+    },
+   
   },
   Mutation: {
     addUser: async (parent, { fullName, email, password, role }) => {
@@ -108,6 +111,48 @@ const resolvers = {
         }
         throw AuthenticationError;
       },
+      addEvent: async (parent, { name, date, price, image, link }) => {
+        return Event.create({ name, date, price, image, link });
+      },
+      addLesson: async (parent, { lessonTitle, lessonDetails }, context) => {
+        if (context.user) {
+          const lesson = await Lesson.create({
+            lessonTitle,
+            lessonDetails,
+            lessonAuthor: context.user.fullName,
+          });
+  
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { lessons: lesson._id } }
+          );
+  
+          return lesson;
+        }
+        throw AuthenticationError;
+      },
+      addLeader: async (parent, { leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage }) => {
+        return Leaders.create({ leaderName, leaderBio, leaderPhone, leaderEmail, leaderImage });
+      },
+      addPastEvent: async (parent, { title, date, images }) => {
+        return PastEvent.create({ title, date, images });
+      },
+
+      deleteEvent: async (parent, { eventId }) => {
+        return Event.findOneAndDelete({ _id: eventId });
+      },
+      deleteLesson: async (parent, { lessonId }) => {
+        return Lesson.findOneAndDelete({ _id: lesson
+        });
+      },
+      removeLeader: async (parent, { _id }) => {
+        return Leaders.findOneAndDelete({ _id });
+      },
+      deletePastEvent: async (parent, { pastEventId }) => {
+        return PastEvent.findOneAndDelete({ _id: pastEventId });
+      },  
+
+
   },
 };
 

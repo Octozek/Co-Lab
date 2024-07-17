@@ -52,6 +52,13 @@ const typeDefs = gql`
   leaderImage: String
   }
 
+  type PastEvent {
+    _id: ID
+    title: String
+    date: String
+    images: [String]
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -69,6 +76,8 @@ const typeDefs = gql`
     getSingleLesson(lessonId: ID!): Lesson
     getName(_id: ID!): User
     getLeaders: [Leaders]
+    getPastEvents: [PastEvent]
+
   }
 
   type Mutation {
@@ -82,6 +91,9 @@ const typeDefs = gql`
     deleteEvent(eventId: ID!): Event
     addLesson(lessonTitle: String!, lessonDetails: String!, lessonAuthor: String!): Lesson
     deleteLesson(lessonId: ID!): Lesson
+    addPastEvent(title: String!, date: String!, images: [String]): PastEvent
+    deletePastEvent(pastEventId: ID!): PastEvent
+    
   }
 `;
 
