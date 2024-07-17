@@ -64,7 +64,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addChat(chatText: String!): Chat
     addComment(chatId: ID!, commentText: String!): Chat
-    addLeader(leaderName: String!, leaderBio: String!, leaderPhone: String!, leaderEmail: String!, leaderImage: String!): Leaders
+    addLeader(leaderName: String!, leaderBio: String!, leaderPhone: String!, leaderEmail: String!, leaderImage: String): Leaders
     removeLeader(_id: ID!): Leaders
   }
 `;

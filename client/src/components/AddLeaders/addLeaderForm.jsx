@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_LEADER } from '../../utils/mutations';
 
-const AddLeaderForm = ({ addLeader }) => {
+const AddLeaderForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     bio: '',
     phone: '',
     email: '',
-    image: [],
+    image: '',
   });
+
+  const [addLeader, { loading, error }] = useMutation(ADD_LEADER);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -15,50 +19,47 @@ const AddLeaderForm = ({ addLeader }) => {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData({ ...formData, image: files });
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file });
   };
 
-  const handleAddLeader = (e) => {
+  const handleAddLeader = async (e) => {
     e.preventDefault();
-    // Validate required fields and ensure only one image is uploaded
-    if (
-      !formData.fullName ||
-      !formData.bio ||
-      !formData.phone ||
-      !formData.email ||
-      formData.image.length === 0 ||
-      formData.image.length > 1
-    ) {
-      alert('Please fill in all required fields and upload one image.');
-      return;
+
+    try {
+      const { fullName, bio, phone, email, image } = formData;
+      console.log(formData)
+      const { data } = await addLeader({
+        variables: {
+          leaderName: fullName,
+          leaderBio: bio,
+          leaderPhone: phone,
+          leaderEmail: email,
+          leaderImage: image,
+        },
+      });
+
+      console.log('Leader added:', data.addLeader);
+
+      // Reset the form
+      setFormData({
+        fullName: '',
+        bio: '',
+        phone: '',
+        email: '',
+        image: null,
+      });
+
+      alert('Leader added successfully!');
+    } catch (error) {
+      console.error('Error adding leader:', error);
+      alert('Error adding leader');
     }
-
-    // Create a new leader object with the form data
-    const newLeader = {
-      ...formData,
-      image: formData.image.map((file) => URL.createObjectURL(file)), // Convert files to object URLs
-    };
-
-    // Pass the new leader to the parent component
-    addLeader(newLeader);
-
-    // Reset the form
-    setFormData({
-      fullName: '',
-      bio: '',
-      phone: '',
-      email: '',
-      image: [],
-    });
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close-btn" onClick={() => addLeader(null)}>
-          &times;
-        </span>
         <form onSubmit={handleAddLeader}>
           <div className="form-group">
             <label>Full Name</label>
@@ -100,17 +101,15 @@ const AddLeaderForm = ({ addLeader }) => {
               required
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Upload Photo</label>
             <input
               type="file"
               name="photo"
               onChange={handleFileChange}
-              multiple
               accept="image/*"
-              required
             />
-          </div>
+          </div> */}
           <button className="submit-btn" type="submit">
             Done
           </button>

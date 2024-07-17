@@ -1,4 +1,4 @@
-const { User, Chat, Lesson } = require('../models');
+const { User, Chat, Lesson, Leaders } = require('../models');
 const { remove } = require('../models/User');
 const { signToken, AuthenticationError } = require('../utils/auth');
 

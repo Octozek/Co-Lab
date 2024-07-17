@@ -23,7 +23,6 @@ const leaderSchema = new Schema({
     },
     leaderImage: {
         type: String,
-        required: true,
         trim: true
     }
 });
