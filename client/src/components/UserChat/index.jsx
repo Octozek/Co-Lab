@@ -67,7 +67,7 @@ function ChatRoom() {
       <h2>Chatroom</h2>
       <div>
         {messages.map((message) => (
-          <p key={message.id}>{message.message}<span className="timestamp">{message.timestamp}</span>
+          <p key={message.id}>{message.message} <span className="timestamp">{message.timestamp}</span>
           </p>
         ))}
       </div>
