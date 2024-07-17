@@ -23,10 +23,11 @@ function ChatRoom() {
   const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
   const currentUser = userData?.me || {};
 
-
+  // console.log("messages", messages)
+  
+  const socket = new WebSocket('ws://localhost:3001/chatroom');
   useEffect(() => {
     // Create WebSocket connection.
-    const socket = new WebSocket('ws://localhost:3001/chatroom');
     setWs(socket);
 
     // Connection opened
@@ -37,9 +38,9 @@ function ChatRoom() {
     // Listen for messages
     socket.addEventListener('message', (event) => {
       // console.log("Got message back!", event)
-      const newMessage = event.data;
-      setMessages(prevMessages => [...prevMessages, newMessage]);
-    });
+      const newMessage = JSON.parse(event.data)
+    setMessages(prevMessages => [...prevMessages, { ...newMessage, id: newMessage.id || Date.now() }]);
+  });
 
     // Clean up WebSocket connection when the component is unmounted
     return () => {
@@ -49,8 +50,9 @@ function ChatRoom() {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if (ws && inputMessage.trim() !== '') {
-      ws.send(inputMessage);
+    if (socket && inputMessage.trim() !== '') {
+      const messageToSend = JSON.stringify({ message: inputMessage, id: Date.now() }); // Assuming the server expects JSON
+      socket.send(messageToSend);
       setInputMessage('');
     }
   };
@@ -60,7 +62,7 @@ function ChatRoom() {
       <h2>Chatroom</h2>
       <div>
         {messages.map((message) => (
-          <p key={message.id}>{message}</p>
+          <p key={message.id}>{message.message}</p>
         ))}
       </div>
       {currentUser.role !== "Guardian" && (
