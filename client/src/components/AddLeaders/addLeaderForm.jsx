@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_LEADER } from '../../utils/mutations';
 import './AddLeaderForm.css';
 
-const AddLeaderForm = ({ addLeader }) => {
+const AddLeaderForm = ({ addLeader, closeModal }) => {
   const [formState, setFormState] = useState({
     leaderName: '',
     leaderBio: '',
@@ -56,7 +56,7 @@ const AddLeaderForm = ({ addLeader }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close-btn" onClick={() => addLeader(null)}>
+        <span className="close-btn" onClick={closeModal}>
           &times;
         </span>
         <form onSubmit={handleFormSubmit}>
