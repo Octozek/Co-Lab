@@ -1,118 +1,114 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_LEADER } from '../../utils/mutations';
+import './AddLeaderForm.css';
 
-const AddLeaderForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    bio: '',
-    phone: '',
-    email: '',
-    image: '',
+const AddLeaderForm = ({ addLeader }) => {
+  const [formState, setFormState] = useState({
+    leaderName: '',
+    leaderBio: '',
+    leaderPhone: '',
+    leaderEmail: '',
+    leaderImage: '',
   });
 
-  const [addLeader, { loading, error }] = useMutation(ADD_LEADER);
+  const [addLeaderMutation, { error }] = useMutation(ADD_LEADER);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormState({
+        ...formState,
+        leaderImage: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
-  const handleAddLeader = async (e) => {
-    e.preventDefault();
-
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const { fullName, bio, phone, email, image } = formData;
-      console.log(formData)
-      const { data } = await addLeader({
-        variables: {
-          leaderName: fullName,
-          leaderBio: bio,
-          leaderPhone: phone,
-          leaderEmail: email,
-          leaderImage: image,
-        },
+      const { data } = await addLeaderMutation({
+        variables: { ...formState },
       });
-
-      console.log('Leader added:', data.addLeader);
-
-      // Reset the form
-      setFormData({
-        fullName: '',
-        bio: '',
-        phone: '',
-        email: '',
-        image: null,
+      addLeader(data.addLeader);
+      setFormState({
+        leaderName: '',
+        leaderBio: '',
+        leaderPhone: '',
+        leaderEmail: '',
+        leaderImage: '',
       });
-
-      alert('Leader added successfully!');
-    } catch (error) {
-      console.error('Error adding leader:', error);
-      alert('Error adding leader');
+    } catch (e) {
+      console.error('Error adding leader:', e);
     }
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <form onSubmit={handleAddLeader}>
+        <span className="close-btn" onClick={() => addLeader(null)}>
+          &times;
+        </span>
+        <form onSubmit={handleFormSubmit}>
           <div className="form-group">
-            <label>Full Name</label>
+            <label htmlFor="leaderName">Name</label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              required
+              id="leaderName"
+              name="leaderName"
+              value={formState.leaderName}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
-            <label>Bio</label>
-            <input
-              type="text"
-              name="bio"
-              value={formData.bio}
-              onChange={handleInputChange}
-              required
+            <label htmlFor="leaderBio">Bio</label>
+            <textarea
+              id="leaderBio"
+              name="leaderBio"
+              value={formState.leaderBio}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
-            <label>Phone Number</label>
+            <label htmlFor="leaderPhone">Phone</label>
             <input
               type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
+              id="leaderPhone"
+              name="leaderPhone"
+              value={formState.leaderPhone}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label htmlFor="leaderEmail">Email</label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
+              id="leaderEmail"
+              name="leaderEmail"
+              value={formState.leaderEmail}
+              onChange={handleChange}
             />
           </div>
-          {/* <div className="form-group">
-            <label>Upload Photo</label>
+          <div className="form-group">
+            <label htmlFor="leaderImage">Image</label>
             <input
               type="file"
-              name="photo"
-              onChange={handleFileChange}
-              accept="image/*"
+              id="leaderImage"
+              name="leaderImage"
+              onChange={handleImageChange}
             />
-          </div> */}
-          <button className="submit-btn" type="submit">
-            Done
-          </button>
+          </div>
+          <button type="submit" className="submit-btn">Add Leader</button>
         </form>
       </div>
     </div>

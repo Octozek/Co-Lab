@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const QUERY_USER = gql`
   query user($email: String!) {
@@ -119,7 +119,6 @@ export const QUERY_LESSONS = gql`
       lessonTitle
       lessonDetails
       lessonAuthor
-    
     }
   }
 `;
