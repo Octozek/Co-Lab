@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
-import logoutIcon from "../../../public/imgs/logout-icon.png"
+import logoutIcon from "../../../public/imgs/logout-icon.png";
 
 const Header = () => {
   const logout = (event) => {
@@ -9,79 +9,58 @@ const Header = () => {
   };
 
   return (
-      <header className="header">
-            {Auth.loggedIn() ? (
-        
-              <>
-                <div className="profilePic">
-                  <img src="https://via.placeholder.com/150" alt="Group Logo" />
+    <header className="header">
+      {Auth.loggedIn() ? (
+        <>
+          <div className="profilePic">
+            <img src="https://via.placeholder.com/150" alt="Group Logo" />
+          </div>
+          <h1 className="groupTitle">Co-Lab</h1>
+          <div className="rightsideHeader">
+            <div className="authButtons">
+              <div className="homeAndsettings">
+                <div className="home-icon">
+                  <Link to="/">
+                    <img src="./imgs/Home.png" alt="home" />
+                  </Link>
                 </div>
-                <h1 className="groupTitle">Co-Lab</h1>
-                <div className="rightsideHeader">
-                  <div className="authButtons">
-                    <div className="homeAndsettings">
-                      <div className="home-icon">
-                        <Link to="/">
-                          <img src="./imgs/Home.png" alt="home" />
-                        </Link>
-                      </div>
-                      <div className="settings-icon">
-                        <Link to="/settings">
-                          <img src="./imgs/settings.png" alt="settings" />
-                        </Link>
-                      </div>
-                      <button className="btn btn-lg btn-light m-2" onClick={logout}>
-                        Logout
-                      </button>
-                    </div>
-                  </div>
+                <div className="settings-icon">
+                  <Link to="/settings">
+                    <img src="./imgs/settings.png" alt="settings" />
+                  </Link>
                 </div>
-              </>
-   
-            ) : (
-              <>
-              <h1 className="groupTitle">Co-Lab</h1>
-                <Link className="btn btn-lg btn-info m-2" to="/login">
-                  Login
-                </Link>
-                <Link className="btn btn-lg btn-light m-2" to="/signup">
-                  Signup
-                </Link>
-              </div>
-              <div className='logout-btn'>
                 <button
                   className="btn btn-lg btn-light"
                   onClick={logout}
                   style={{
                     backgroundImage: `url(${logoutIcon})`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                    width: '25px',
-                    height: '25px',
-                    border: 'none',
-                    padding: '0',
-                    overflow: 'hidden',
-                  }}>
-                </button>
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    width: "25px",
+                    height: "25px",
+                    border: "none",
+                    padding: "0",
+                    overflow: "hidden",
+                  }}
+                ></button>
               </div>
             </div>
-          ) : (
-            <div className='loginAndSignUp'>
-              <div className="login-btn">
-                <Link className="btn btn-lg btn-info" to="/login">
-                  Login
-                </Link>
-              </div>
-              <div className="signup-btn">
-                <Link className="btn btn-lg btn-light" to="/signup">
-                  Signup
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+        <div className="login-signup">
+          <Link className="btn btn-lg btn-info m-2" to="/login">
+            Login
+          </Link>
+        <h1 className="groupTitle">Co-Lab</h1>
+          <Link className="btn btn-lg btn-light m-2" to="/signup">
+            Signup
+          </Link>
+          </div>
+        </>
+      )}
     </header>
   );
 };

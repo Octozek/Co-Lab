@@ -23,7 +23,9 @@ const ChatList = ({
               className="btn btn-primary btn-block btn-squared"
               to={`/chats/${chat._id}`}
             >
-              <h2>{chat.chatText}</h2>
+              <div className="chat-text">
+              <h3>{chat.chatText}</h3>
+              </div>
             </Link>
             </div>
             <p className="card-header bg-primary text-light p-2 m-0">
