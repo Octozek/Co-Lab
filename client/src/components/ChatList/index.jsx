@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import '../../pages/Chat.css';
 
 
 const ChatList = ({
@@ -30,7 +31,9 @@ const ChatList = ({
                 <>
                  <br />
                 <span style={{ fontSize: '1rem' }}>
+
                   {chat.chatAuthor} {chat.createdAt}
+
                 </span>
               </>
               ) : (

@@ -84,8 +84,8 @@ export default function Scoreboard() {
           border: white 1px solid;
         }
         .add-button {
-          background-color: green;
-          color: white;
+          background-color: transparent;
+          color: #d2f189;
           padding: 10px;
           font-size: 12px;
           border: white 1px solid;

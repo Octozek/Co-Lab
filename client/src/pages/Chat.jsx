@@ -25,7 +25,7 @@ const Chat = () => {
   // console.log("users", users);
 
   return (
-    <main
+    <main className='main'
       style={{
         display: "flex",
         flexDirection: "row",
@@ -36,7 +36,6 @@ const Chat = () => {
       <div
         id="userListContainer"
         className="mb-3"
-        style={{ width: "20%", border: "1px solid #1a1a1a", padding: "10px" }}
       >
         <h3>Chat Members</h3>
         {usersLoading ? (
@@ -51,12 +50,11 @@ const Chat = () => {
           </ul>
         )}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
-        {currentUser.role !== "Guardian" && (
+      <div className='rightSideChat'>
+      {currentUser.role !== "Guardian" && (
           <div
             id="chatFormContainer"
             className="mb-3"
-            style={{ border: "1px dotted #1a1a1a", padding: "10px" }}
           >
             <ChatForm />
           </div>
@@ -65,7 +63,6 @@ const Chat = () => {
         <div
           id="chatListContainer"
           className="mb-3"
-          style={{ flexGrow: 1, border: "1px solid #1a1a1a", padding: "10px" }}
         >
           {chatsLoading ? (
             <div>Loading...</div>

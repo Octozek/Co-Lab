@@ -33,7 +33,7 @@ export default function GameButtons() {
           display: inline-block;
           margin: 10px;
           padding: 10px;
-          border: 1px solid black;
+          border: 3px solid #85c7e4;
           border-radius: 10px;
         }
       `}

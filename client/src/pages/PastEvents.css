@@ -15,7 +15,9 @@
   } */
   
   .add-event-btn:hover {
-    background-color: #0056b3;
+    background-color: transparent;
+    border: 3px solid #85c7e4;
+    color:#85c7e4;
   }
   
   .modal {
@@ -79,7 +81,7 @@
   
   .submit-btn:hover {
     background-color: #fcefe6;
-    color: #ed9569;
+    color: #1e1b14;
     border: 2px solid #ed9569;
   }
   

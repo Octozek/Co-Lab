@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
+import logoutIcon from "../../../public/imgs/logout-icon.png"
 
 const Header = () => {
   const logout = (event) => {
@@ -46,10 +47,43 @@ const Header = () => {
                 <Link className="btn btn-lg btn-light m-2" to="/signup">
                   Signup
                 </Link>
-              </>
-            )}
-      </header>
-    );
+              </div>
+              <div className='logout-btn'>
+                <button
+                  className="btn btn-lg btn-light"
+                  onClick={logout}
+                  style={{
+                    backgroundImage: `url(${logoutIcon})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    width: '25px',
+                    height: '25px',
+                    border: 'none',
+                    padding: '0',
+                    overflow: 'hidden',
+                  }}>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className='loginAndSignUp'>
+              <div className="login-btn">
+                <Link className="btn btn-lg btn-info" to="/login">
+                  Login
+                </Link>
+              </div>
+              <div className="signup-btn">
+                <Link className="btn btn-lg btn-light" to="/signup">
+                  Signup
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

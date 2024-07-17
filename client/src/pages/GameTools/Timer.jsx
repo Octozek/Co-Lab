@@ -88,6 +88,7 @@ export default function Timer() {
 
           .container {
             display: flex;
+            flex-direction:column;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
@@ -107,19 +108,19 @@ export default function Timer() {
           button {
             padding: 10px 20px;
             margin: 10px;
-            border: white 1px solid;
+            border: #fecfe6 2px solid;
           }
           .start {
-            background-color: green;
-            color: white;
+            background-color: #d2f189;
+            color: #1e1b14;
           }
           .stop {
-            background-color: red;
-            color: white;
+            background-color: #ed9569;
+            color: #1e1b14;
           }
           .reset {
-            background-color: gray;
-            color: white;
+            background-color: transparent;
+            color: #85c7e4;
           }
         `}
       </style>

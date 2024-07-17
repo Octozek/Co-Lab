@@ -8,12 +8,39 @@
 
 }
 
-.card-body form{
+.logo-img {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-img img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.card-body form{ 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
+.card-body .form-input {
+    width: 100%;
+}
+
+.card-body span {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* .card-body label {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+} */
 
 h4 {
     color: #fcefe6;
@@ -47,7 +74,6 @@ p {
 button {
     font-size: 1.3rem;
     font-weight: 800;
-    margin-top: 50px;
     padding: 10px 20px;
     color: #1e1b14;
     border: 2px solid #fcefe6;
@@ -58,8 +84,6 @@ button {
 button:hover {
     font-size: 1.3rem;
     font-weight: 800;
-    margin-top: 50px;
-    padding: 5px 20px;
     color: #85c7e4;
     border: 2px solid #85c7e4;
     cursor: pointer;

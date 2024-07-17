@@ -5,6 +5,7 @@ import { LOGIN_USER } from '../utils/mutations';
 import './loginAndSignup.css'
 
 import Auth from '../utils/auth';
+import logoImg from '../../public/imgs/Logo.png';
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
@@ -45,12 +46,15 @@ const Login = (props) => {
     <main className="flex-row justify-center mb-4">
       <div className="col-12 col-lg-10">
         <div className="card">
+          <div className='logo-img'>
+            <img src={logoImg} alt='Logo'/>
+          </div>
           <h4 className="card-header bg-dark text-light p-2">Login</h4>
           <div className="card-body">
             {data ? (
               <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
+                Success! You may now head to the homepage{' '}
+                <Link to="/">!</Link>
               </p>
             ) : (
               <form onSubmit={handleFormSubmit}>
