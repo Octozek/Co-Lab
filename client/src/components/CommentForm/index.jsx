@@ -41,7 +41,7 @@ const CommentForm = ({ chatId }) => {
 
   return (
     <div>
-      <h4>Add a comment</h4>
+      <h4></h4>
 
       {Auth.loggedIn() ? (
         <>
