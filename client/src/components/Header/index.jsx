@@ -17,6 +17,7 @@ const Header = () => {
         <div className="authButtons">
           {Auth.loggedIn() ? (
             <div className="homeAndsettings">
+              <div className="aDivWithin">
               <div className="home-icon">
                 <Link to="/">
                   <img src="./imgs/Home.png" alt="home" />
@@ -27,7 +28,8 @@ const Header = () => {
                   <img src="./imgs/settings.png" alt="settings" />
                 </Link>
               </div>
-              <button className="btn btn-lg btn-light m-2" onClick={logout}>
+              </div>
+              <button className="btn btn-lg btn-light" onClick={logout}>
                 Logout
               </button>
             </div>

@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import '../../pages/Chat.css';
 
 const ChatList = ({
   chats,

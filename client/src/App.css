@@ -17,6 +17,7 @@ a {
   color: #1e1b14;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #85c7e4;
 }
@@ -31,13 +32,13 @@ body {
 }
 
 h1 {
-font-size: 3.2em;
+  font-size: 3.2em;
   line-height: 1.1;
 }
 
 button {
   border-radius: 8px;
-  color:#1e1b14;
+  color: #1e1b14;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -47,9 +48,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #ed9569;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -68,9 +71,11 @@ button:focus-visible {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -82,31 +87,40 @@ button:focus-visible {
 /* Header Styles */
 header {
   position: fixed;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 100%;
-  background-color: #85c7e4; 
+  background-color: #85c7e4;
   padding: 10px 0;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
 .rightsideHeader {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-right: 40px;
   margin-top: 10px;
+}
+
+.rightsideHeader button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 a {
   color: #1e1b14;
 
 }
+
 .profilePic img {
-  width: 80px; 
-  height: 80px; 
+  width: 80px;
+  height: 80px;
   float: left;
   margin: 5px;
   margin-left: 80px;
@@ -116,19 +130,25 @@ a {
 .groupTitle {
   color: #1e1b14;
   text-align: center;
-  font-size: 4rem; 
+  font-size: 2rem;
 }
 
 .homeAndsettings {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-bottom: -30px;
+  height: 30%;
+}
+
+.aDivWithin {
+  display:flex;
+  justify-content: center;
 }
 
 .settings-icon img,
 .home-icon img {
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   margin-right: 15px;
   cursor: pointer;
 }
@@ -137,33 +157,34 @@ a {
 h3 {
   margin-top: 50px;
   font-size: 1.5rem;
-  color:#ed9569;
+  color: #ed9569;
 }
+
 .icons-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  grid-template-rows: repeat(2, auto); 
-  gap: 20px; 
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
   justify-items: center;
-  align-items: center; 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  padding: 20px; 
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .icons-container .nav-link {
-  text-align: center; 
+  text-align: center;
 }
 
 .icons-container .nav-link a {
-  display: block; 
-  text-decoration: none; 
+  display: block;
+  text-decoration: none;
 }
 
 .icons-container .nav-link img {
-  width:100%;
-  max-width: 300px; 
-  height: auto; 
+  width: 100%;
+  max-width: 300px;
+  height: auto;
 }
 
 
@@ -222,9 +243,12 @@ h3 {
 }
 
 @keyframes wiggle {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotate(-3deg);
   }
+
   50% {
     transform: rotate(3deg);
   }
@@ -236,7 +260,7 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color:#85c7e4;
+  background-color: #85c7e4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -291,7 +315,7 @@ h3 {
   color: #fcefe6;
 }
 
-.profilePicture img{
+.profilePicture img {
   border-radius: 50%;
 }
 
@@ -302,7 +326,7 @@ h3 {
 .sidebar button {
   color: #1e1b14;
   font-weight: 600;
-  margin:10px;
+  margin: 10px;
   cursor: pointer;
 }
 
@@ -313,23 +337,26 @@ h3 {
 
 @media (max-width: 768px) {
   header {
-    flex-direction: column; 
-    align-items: flex-start; 
+    flex-direction: column;
+    align-items: flex-start;
     padding: 20px;
   }
 
   header img {
-    margin: 0 0 10px 0; 
+    margin: 0 0 10px 0;
   }
 
   header .nav-links {
-    margin: 10px 0; 
+    margin: 10px 0;
   }
 
   header .auth-buttons {
-    margin-left: 0; 
+    display: flex;
+    justify-content: center;
+    border: 3px solid red;
+    /* margin-left: 0; 
     margin-top: 10px; 
-    margin-right: 10px;
+    margin-right: 100px; */
   }
 }
 
@@ -338,9 +365,11 @@ h3 {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
@@ -350,6 +379,7 @@ h3 {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

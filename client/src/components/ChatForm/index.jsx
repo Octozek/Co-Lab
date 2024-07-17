@@ -6,6 +6,7 @@ import { ADD_CHAT } from '../../utils/mutations';
 import { QUERY_CHATS, QUERY_ME } from '../../utils/queries';
 
 import Auth from '../../utils/auth';
+import '../../pages/Chat.css';
 
 const ChatForm = () => {
   const [chatText, setChatText] = useState('');
@@ -49,7 +50,7 @@ const ChatForm = () => {
   };
 
   return (
-    <div>
+    <div className='chatFormMain'>
       <h3>Chat</h3>
 
       {Auth.loggedIn() ? (
