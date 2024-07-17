@@ -51,7 +51,12 @@ function ChatRoom() {
   const sendMessage = (e) => {
     e.preventDefault();
     if (socket && inputMessage.trim() !== '') {
-      const messageToSend = JSON.stringify({ message: inputMessage, id: Date.now() }); // Assuming the server expects JSON
+      const currentTime = new Date().toLocaleTimeString();
+      const messageToSend = JSON.stringify({
+        message: inputMessage,
+        id: Date.now(),
+        timestamp: currentTime 
+      });
       socket.send(messageToSend);
       setInputMessage('');
     }
@@ -62,7 +67,8 @@ function ChatRoom() {
       <h2>Chatroom</h2>
       <div>
         {messages.map((message) => (
-          <p key={message.id}>{message.message}</p>
+          <p key={message.id}>{message.message}<span className="timestamp">{message.timestamp}</span>
+          </p>
         ))}
       </div>
       {currentUser.role !== "Guardian" && (
