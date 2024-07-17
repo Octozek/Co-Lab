@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './PastEvents.css';
+import React, { useState, useEffect } from "react";
+import { useQuery } from '@apollo/client';
+import axios from "axios";
+import "./PastEvents.css";
+import { QUERY_ME } from "../utils/queries";
 
 const PastEvents = () => {
   const [pastEvents, setPastEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    date: '',
+    title: "",
+    date: "",
     images: [],
   });
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { loading: userLoading, data: userData } = useQuery(QUERY_ME);
+  const currentUser = userData?.me || {};
 
   useEffect(() => {
     fetchPastEvents();
@@ -20,14 +25,14 @@ const PastEvents = () => {
 
   const fetchPastEvents = async () => {
     try {
-      const response = await axios.get('/api/past-events');
+      const response = await axios.get("/api/past-events");
       if (Array.isArray(response.data)) {
         setPastEvents(response.data);
       } else {
-        console.error('Unexpected response data:', response.data);
+        console.error("Unexpected response data:", response.data);
       }
     } catch (error) {
-      console.error('Error fetching past events:', error);
+      console.error("Error fetching past events:", error);
     }
   };
 
@@ -39,7 +44,7 @@ const PastEvents = () => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 6) {
-      alert('You can only upload up to 6 images.');
+      alert("You can only upload up to 6 images.");
       return;
     }
     setFormData({ ...formData, images: files });
@@ -47,28 +52,30 @@ const PastEvents = () => {
 
   const handleAddPastEvent = async () => {
     if (!formData.title || !formData.date || formData.images.length === 0) {
-      alert('Please fill in all required fields and upload at least one image.');
+      alert(
+        "Please fill in all required fields and upload at least one image."
+      );
       return;
     }
 
     const eventFormData = new FormData();
-    eventFormData.append('title', formData.title);
-    eventFormData.append('date', formData.date);
+    eventFormData.append("title", formData.title);
+    eventFormData.append("date", formData.date);
     formData.images.forEach((image, index) => {
-      eventFormData.append('images', image);
+      eventFormData.append("images", image);
     });
 
     try {
-      const response = await axios.post('/api/past-events', eventFormData);
+      const response = await axios.post("/api/past-events", eventFormData);
       setPastEvents([...pastEvents, response.data]);
       setShowModal(false);
       setFormData({
-        title: '',
-        date: '',
+        title: "",
+        date: "",
         images: [],
       });
     } catch (error) {
-      console.error('Error adding past event:', error);
+      console.error("Error adding past event:", error);
     }
   };
 
@@ -86,23 +93,33 @@ const PastEvents = () => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredEvents = pastEvents.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    event.date.includes(searchQuery)
+  const filteredEvents = pastEvents.filter(
+    (event) =>
+      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.date.includes(searchQuery)
   );
 
   return (
     <div className="past-events">
       <h1>Past Events</h1>
-      <button className="add-event-btn" onClick={() => setShowModal(true)}>
-        Add Past Event
-      </button>
-      <input
-        type="text"
-        placeholder="Search by title or date"
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
+      <div>
+        {currentUser.role === "Leader" && (
+          <>
+            <button
+              className="add-event-btn"
+              onClick={() => setShowModal(true)}
+            >
+              Add Past Event
+            </button>
+            <input
+              type="text"
+              placeholder="Search by title or date"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </>
+        )}
+      </div>
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -148,14 +165,22 @@ const PastEvents = () => {
       )}
       <div className="events-list">
         {filteredEvents.map((event) => (
-          <div key={event._id} className="event" onClick={() => handleEventClick(event)}>
+          <div
+            key={event._id}
+            className="event"
+            onClick={() => handleEventClick(event)}
+          >
             <div className="event-overlay">
               <h2 className="event-title">{event.title}</h2>
               <p className="event-date">{event.date}</p>
             </div>
             <div className="event-images-scattered">
               {event.images.map((image, index) => (
-                <img key={index} src={`data:image/jpeg;base64,${image}`} alt={event.title} />
+                <img
+                  key={index}
+                  src={`data:image/jpeg;base64,${image}`}
+                  alt={event.title}
+                />
               ))}
             </div>
           </div>
@@ -171,7 +196,11 @@ const PastEvents = () => {
             <p>{selectedEvent.date}</p>
             <div className="event-images-grid">
               {selectedEvent.images.map((image, index) => (
-                <img key={index} src={`data:image/jpeg;base64,${image}`} alt={selectedEvent.title} />
+                <img
+                  key={index}
+                  src={`data:image/jpeg;base64,${image}`}
+                  alt={selectedEvent.title}
+                />
               ))}
             </div>
           </div>
