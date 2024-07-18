@@ -109,6 +109,7 @@
 .form-group input,
 .form-group textarea {
   width: 100%;
+  color: #1e1b14;
   border: 3px solid #d2f189;
   border-radius: 20px;
   background-color: transparent;
@@ -152,8 +153,10 @@
 }
 
 .lessons-list {
+  margin-top: 20px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
   gap: 20px;
 }
 
