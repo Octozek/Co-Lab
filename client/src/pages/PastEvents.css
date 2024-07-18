@@ -1,207 +1,164 @@
-/* client/src/pages/PastEvents.css */
 .past-events {
-    text-align: center;
-    padding: 20px;
+  padding: 20px;
+}
+
+.add-event-btn,
+.delete-event-btn {
+  font-family: "Ubuntu", sans-serif;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.delete-event-btn {
+  background-color: #ed9569;
+  color: #fcefec;
+}
+
+.past-events input {
+  flex-direction: column;
+  background-color: transparent;
+  border: 2px solid #d2f189;
+  border-radius: 20px;
+  margin: 20px;
+  padding: 10px 40px;
+  max-width: 100%;
+  color: #d2f189;
+}
+
+.past-events input::placeholder {
+  color: #fcefe6;
+  text-align: center;
+  font-size: .9rem;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.event {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fcefe6;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.event-overlay {
+  flex: 1;
+  text-align: left;
+  margin-left: 50px;
+}
+
+.event-title {
+  margin-bottom: 5px;
+  color: #1e1b14;
+}
+
+.event-date {
+  margin-bottom: 10px;
+}
+
+.event-images-scattered {
+  display: flex;
+  gap: 10px;
+}
+
+.event-images-scattered img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  margin-left: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fcefe6;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.modal-content h2 {
+  color:#1e1b14;
+}
+
+.close-btn {
+  font-family: "Ubuntu", sans-serif;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.event-images-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-images-grid img {
+  width: 200px;
+  margin: 10px;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.submit-btn {
+  font-family: "Ubuntu", sans-serif;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.going {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wiggle {
+  animation: wiggle 0.5s infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  /* .add-event-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 20px;
-  } */
-  
-  .add-event-btn:hover {
-    background-color: transparent;
-    border: 3px solid #85c7e4;
-    color:#85c7e4;
+  50% {
+    transform: rotate(5deg);
   }
-  
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #85c7e4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  100% {
+    transform: rotate(0deg);
   }
-  
-  .modal-content {
-    background-color: #fcefe6;
-    padding: 20px;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #ed9569;
-    font-size: 1.3rem;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    background-color: #fcefe6;
-    color: #1e1b14;
-    border: 2px solid #d2f189;
-    border-radius: 20px;
-  }
-  
-  .submit-btn {
-    background-color: #ed9569;
-    color: #fcefe6;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .submit-btn:hover {
-    background-color: #fcefe6;
-    color: #1e1b14;
-    border: 2px solid #ed9569;
-  }
-  
-  /* .events-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  } */
-  
-  /* .event {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: left;
-    cursor: pointer;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.5); */
-  /* } */
-  
-  /* .event-overlay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: white;
-    z-index: 10;
-  }
-  
-  .event-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .event-date {
-    font-size: 14px;
-  }
-  
-  .event-images-scattered {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .event-images-scattered img {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); */
-  }
-  
-  /* Random positions and rotations for the images */
-  .event-images-scattered img:nth-child(1) {
-    top: 20px;
-    left: 40px;
-    transform: rotate(-10deg);
-    z-index: 1;
-  }
-  
-  .event-images-scattered img:nth-child(2) {
-    top: 60px;
-    left: 80px;
-    transform: rotate(15deg);
-    z-index: 2;
-  }
-  
-  .event-images-scattered img:nth-child(3) {
-    top: 40px;
-    left: 120px;
-    transform: rotate(-5deg);
-    z-index: 3;
-  }
-  
-  .event-images-scattered img:nth-child(4) {
-    top: 80px;
-    left: 40px;
-    transform: rotate(20deg);
-    z-index: 4;
-  }
-  
-  .event-images-scattered img:nth-child(5) {
-    top: 100px;
-    left: 100px;
-    transform: rotate(-15deg);
-    z-index: 5;
-  }
-  
-  .event-images-scattered img:nth-child(6) {
-    top: 140px;
-    left: 60px;
-    transform: rotate(10deg);
-    z-index: 6;
-  }
-  
-  .event-images-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .event-images-grid img {
-    width: 100px;
-    height: auto;
-    border-radius: 5px;
-  }
-  
-  input[type="text"], input[type="date"], input[type="file"] {
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: transparent;
-    color: #1e1b14;
-    font-size: 1.5rem;
-    border: 3px solid #d2f189;
-    border-radius: 20px;
-    justify-content: center;
-    align-items: center;
-  }
-  
+}

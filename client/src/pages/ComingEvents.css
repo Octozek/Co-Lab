@@ -2,7 +2,8 @@
   padding: 20px;
 }
 
-.add-event-btn, .delete-event-btn {
+.add-event-btn, 
+.delete-event-btn {
   font-family: "Ubuntu", sans-serif;
   margin: 10px;
   padding: 10px 20px;
@@ -14,7 +15,6 @@
   background-color: #ed9569;
   color: #fcefec;
 }
-
 
 /* Added Event Card */
 .events-list {

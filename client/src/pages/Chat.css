@@ -71,3 +71,8 @@ p, span, h4, h5 {
 #chatListContainer li {
     color: #fcefe6;
 }
+
+.chat-text h3 {
+    color:#1e1b14;
+    font-size: 1.2rem;
+}

@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
 import logoutIcon from "../../../public/imgs/logout-icon.png";
@@ -10,27 +11,29 @@ const Header = () => {
 
   return (
     <header className="header">
-      {Auth.loggedIn() ? (
-        <>
-          <div className="profilePic">
-            <img src="https://via.placeholder.com/150" alt="Group Logo" />
-          </div>
-          <h1 className="groupTitle">Co-Lab</h1>
-          <div className="rightsideHeader">
-            <div className="authButtons">
-              <div className="homeAndsettings">
-                <div className="home-icon">
-                  <Link to="/">
-                    <img src="./imgs/Home.png" alt="home" />
-                  </Link>
-                </div>
-                <div className="settings-icon">
-                  <Link to="/settings">
-                    <img src="./imgs/settings.png" alt="settings" />
-                  </Link>
+      <div className="header-content">
+        <h1 className="groupTitle">Co-Lab</h1>
+        {Auth.loggedIn() ? (
+          <>
+            <div className="profilePic">
+              <img src="https://via.placeholder.com/150" alt="Group Logo" />
+            </div>
+            <div className="rightsideHeader">
+              <div className="authButtons">
+                <div className="homeAndsettings">
+                  <div className="home-icon">
+                    <Link to="/">
+                      <img src="./imgs/Home.png" alt="home" />
+                    </Link>
+                  </div>
+                  <div className="settings-icon">
+                    <Link to="/settings">
+                      <img src="./imgs/settings.png" alt="settings" />
+                    </Link>
+                  </div>
                 </div>
                 <button
-                  className="btn btn-lg btn-light"
+                  className="btn btn-lg btn-light logout-btn"
                   onClick={logout}
                   style={{
                     backgroundImage: `url(${logoutIcon})`,
@@ -46,21 +49,18 @@ const Header = () => {
                 ></button>
               </div>
             </div>
+          </>
+        ) : (
+          <div className="login-signup">
+            <Link className="btn btn-lg btn-info login-btn" to="/login">
+              Login
+            </Link>
+            <Link className="btn btn-lg btn-light signup-btn" to="/signup">
+              Signup
+            </Link>
           </div>
-        </>
-      ) : (
-        <>
-        <div className="login-signup">
-          <Link className="btn btn-lg btn-info m-2" to="/login">
-            Login
-          </Link>
-        <h1 className="groupTitle">Co-Lab</h1>
-          <Link className="btn btn-lg btn-light m-2" to="/signup">
-            Signup
-          </Link>
-          </div>
-        </>
-      )}
+        )}
+      </div>
     </header>
   );
 };
