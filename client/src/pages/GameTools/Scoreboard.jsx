@@ -65,6 +65,16 @@ export default function Scoreboard() {
 
         input {
           margin-right: 10px;
+          padding: 10px;
+          border: 2px solid #d2f189;
+          border-radius: 20px;
+          background-color: transparent;
+          color: #fcefe6;
+        }
+
+        input::placeholder {
+          color: #fcefe6;
+          text-align: center;
         }
 
         p {
@@ -77,8 +87,8 @@ export default function Scoreboard() {
           border: white 1px solid;
         }
         .remove-button {
-          background-color: red;
-          color: white;
+          background-color: #ed9569;
+          color: #1e1b14;
           padding: 10px;
           margin-left: 10px;
           border: white 1px solid;
