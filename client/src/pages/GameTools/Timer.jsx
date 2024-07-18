@@ -24,6 +24,11 @@ export default function Timer() {
   useEffect(() => {
     let interval = null;
 
+    if (countdownOn && countdownTime === 0) {
+      // Convert inputValue to a number and set it as countdownTime when countdown starts
+      setCountdownTime(parseInt(inputValue) * 1000); // Assuming inputValue is in seconds
+    }
+
     if (countdownOn) {
       interval = setInterval(() => {
         setCountdownTime((prevTime) => (prevTime > 0 ? prevTime - 10 : 0));
@@ -32,13 +37,8 @@ export default function Timer() {
       clearInterval(interval);
     }
 
-    if (countdownTime === 0) {
-      clearInterval(interval);
-      setCountdownOn(false);
-    }
-
     return () => clearInterval(interval);
-  }, [countdownOn, countdownTime]);
+  }, [countdownOn, inputValue]); // Listen for changes in countdownOn and inputValue
 
   const formatTime = (time) => {
     const milliseconds = time % 1000;
