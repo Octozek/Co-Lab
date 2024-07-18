@@ -10,7 +10,7 @@
     "build": "cd client && npm run build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "install": "cd server && npm i && cd ../client && npm i",
-    "render-build": "npm install && npm run build"
+    "render-build": "cd client && npm install && npm run build && cd .. && npm install"
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",

@@ -19,24 +19,21 @@ const server = new ApolloServer({
   resolvers,
 });
 
-const expressWs = require('express-ws')
-expressWs(app)
-const connections = new Set()
+const expressWs = require('express-ws');
+expressWs(app);
+const connections = new Set();
+
 const wsHandler = (ws) => {
-  connections.add(ws)
+  connections.add(ws);
   ws.on('message', (message) => {
-
-    connections.forEach((conn) => conn.send(message))
-  })
+    connections.forEach((conn) => conn.send(message));
+  });
   ws.on('close', () => {
-    connections.delete(ws)
-  })
-}
-app.ws('/chatroom', wsHandler)
-app.use(express.static('build'))
+    connections.delete(ws);
+  });
+};
 
-
-
+app.ws('/chatroom', wsHandler);
 
 const startApolloServer = async () => {
   await server.start();
@@ -49,9 +46,9 @@ const startApolloServer = async () => {
     context: authMiddleware
   }));
 
-  app.use('/api/events', eventRoutes); // Ensure event routes are set correctly
-  app.use('/api/past-events', pastEventRoutes); // Ensure past event routes are set correctly
-  app.use('/api/lessons', lessonRoutes); // Use lesson
+  app.use('/api/events', eventRoutes);
+  app.use('/api/past-events', pastEventRoutes);
+  app.use('/api/lessons', lessonRoutes);
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -68,9 +65,8 @@ const startApolloServer = async () => {
     });
   });
 };
-const wbServer = http.createServer((request, response) => {
-  // Handle HTTP requests here
-});
+
+const wbServer = http.createServer(app);
 
 const webSocketServer = new WebSocket({
   httpServer: wbServer,
